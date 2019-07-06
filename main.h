@@ -29,6 +29,7 @@
 # define ERR_USAGE	0
 # define ERR_MALLOC	1
 # define ERR_SDL	2
+# define ERR_ARGV	3
 
 # define S_SIZE	15
 # define M_SIZE	25
@@ -45,11 +46,9 @@ typedef struct			s_sdl_ptr
 
 typedef struct			s_read
 {
-	char				**line;
-	int					*tab;
-	int					*color;
+	char				*line;
 	int					row;
-	int					col;
+	int					len;
 
 	struct s_read		*next;
 	struct s_read		*prev;

@@ -30,4 +30,9 @@ void	w_error(int err_nb)
 		ft_putendl("Get pointer from SDL_function failed");
 		exit(err_nb);
 	}
+	else if (err_nb == ERR_ARGV)
+	{
+		ft_putendl("No file or empty map");
+		exit(err_nb);
+	}
 }

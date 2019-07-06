@@ -22,6 +22,8 @@
 # include <math.h>
 # include "libft/libft.h"
 # include "SDL2/SDL.h"
+# include "SDL2_image/SDL_image.h"
+# include "SDL2_ttf/SDL_ttf.h"
 
 #define WIN			wolf->sdl_data.win
 #define SURF_WIN	wolf->sdl_data.surf_win

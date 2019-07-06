@@ -25,13 +25,17 @@
 # include "SDL2_image/SDL_image.h"
 # include "SDL2_ttf/SDL_ttf.h"
 
-#define WIN			wolf->sdl_data.win
-#define SURF_WIN	wolf->sdl_data.surf_win
+# define WIN		wolf->sdl_data.win
+# define SURF_WIN	wolf->sdl_data.surf_win
 
 # define ERR_USAGE	0
 # define ERR_MALLOC	1
 # define ERR_SDL	2
 # define ERR_ARGV	3
+
+# define S_PLYR		wolf->smbl.plyr
+# define S_WALL		wolf->smbl.wall
+# define S_FREE		wolf->smbl.free
 
 # define S_SIZE	15
 # define M_SIZE	25
@@ -56,8 +60,16 @@ typedef struct			s_read
 	struct s_read		*prev;
 }						t_read;
 
+typedef struct			s_symb_lab
+{
+	char 				plyr;
+	char 				free;
+	char 				wall;
+}						t_symb_lab;
+
 typedef struct			s_wolf
 {
+	t_symb_lab			smbl;
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
 

@@ -55,6 +55,7 @@ static void	init_wolf(t_wolf *wolf)
  	if (!wolf)
  		w_error(ERR_MALLOC);
 
+
  	fd = open(av[1], O_RDONLY);
  	w_valid_map(wolf, fd);
  	close(fd);

@@ -45,15 +45,18 @@ void	w_valid_map(t_wolf *wolf, int fd)
 	char	*string;
 
 	gnl = 0;
-	wolf->read = NULL;
 	string = NULL;
+	wolf->read = NULL;
 	while ((gnl = get_next_line(fd, &string)) == 1)
 	{
 		wolf->read = malloc_lst(wolf->read, string);
 		ft_strdel(&string);
+		printf("%d \t %d %s$\n", wolf->read->row,
+				wolf->read->len, wolf->read->line);
 	}
 	if ((wolf->read == NULL) || gnl == -1)
 		w_error(ERR_ARGV);
+
 //	while (wolf->l->prev)
 //	{
 //		if (wolf->l->col != wolf->l->prev->col)

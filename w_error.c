@@ -56,4 +56,9 @@ void	w_error(int err_nb)
 		ft_putendl("Detected free space in the labyrinth perimeter");
 		exit(err_nb);
 	}
+	else if (err_nb == ERR_FREE)
+	{
+		ft_putendl("There is no free place for a player in your labyrinth");
+		exit(err_nb);
+	}
 }

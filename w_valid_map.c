@@ -51,31 +51,56 @@ static void first_line(t_wolf *wolf)
 		w_error(ERR_SIZE);
 }
 
+static void cheack_line(t_wolf *wolf, int i)
+{
+	int j;
+
+	if (READ->len != LBRNT.size)
+		w_error(ERR_LENGTH);
+	if (i == 0 || i == (LBRNT.size - 1))
+	{
+		j = -1;
+		while (++j < READ->len)
+			if (READ->line[j] != S_WALL)
+				w_error(ERR_WALL);
+	}
+	if ((READ->line[0] != S_WALL) || (READ->line[READ->len - 1] != S_WALL))
+		w_error(ERR_WALL);
+	if (i != 0 || i != (LBRNT.size - 1))
+	{
+		j = -1;
+		while (++j < READ->len)
+		{
+			if (READ->line[j] == S_FREE)
+				FLAGS.free_sp = 1;
+			if (READ->line[j] == S_PLYR)
+				FLAGS.player = 1;
+		}
+	}
+}
+
 static void w_valid_read(t_wolf *wolf)
 {
 	int i;
-	int j;
 
 	i = 0;
 	first_line(wolf);
+	LBRNT.map = (char**)malloc(sizeof(char*) * LBRNT.size);
+	if (!LBRNT.map)
+		w_error(ERR_MALLOC);
 	while(READ->next)
 	{
 		READ = READ->next;
-		if (READ->len != LBRNT.size)
-			w_error(ERR_LENGTH);
-		if (i == 0 || i == (LBRNT.size - 1))
-		{
-			j = -1;
-			while (++j < READ->len)
-				if (READ->line[j] != S_WALL)
-					w_error(ERR_WALL);
-		}
-		if ((READ->line[0] != S_WALL) || (READ->line[READ->len - 1] != S_WALL))
-			w_error(ERR_WALL);
+		cheack_line(wolf, i);
+		LBRNT.map[i] = READ->line;
 		i++;
 	}
 	if (i != LBRNT.size)
 		w_error(ERR_HEIGHT);
+	if (FLAGS.free_sp == 0)
+		w_error(ERR_FREE);
+	while (READ->prev != NULL)
+		READ = READ->prev;
 }
 
 void	w_valid_map(t_wolf *wolf, int fd)
@@ -90,7 +115,7 @@ void	w_valid_map(t_wolf *wolf, int fd)
 	{
 		READ = malloc_lst(READ, string);
 		ft_strdel(&string);
-		printf("%d \t %d %s$\n", wolf->read->row,
+		printf("%d \t %d " T_GRN "%s" R "\n", wolf->read->row,
 				wolf->read->len, wolf->read->line);
 	}
 	if ((READ == NULL) || gnl == -1)

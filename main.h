@@ -44,6 +44,7 @@
 # define ERR_HEIGHT	5
 # define ERR_SIZE	6
 # define ERR_WALL	7
+# define ERR_FREE	8
 
 # define WDTH 1200
 # define HGHT 800

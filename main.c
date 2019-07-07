@@ -28,6 +28,7 @@ static void	init_wolf(t_wolf *wolf)
 	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
 	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
 	SDL_UpdateWindowSurface(WIN);
+	SDL_Delay(50);
 }
 
  static void w_event(t_wolf *wolf)
@@ -44,6 +45,15 @@ static void	init_wolf(t_wolf *wolf)
 	 SDL_Quit();
  }
 
+ static void init_param(t_wolf	*wolf)
+ {
+	 S_FREE = ' ';
+	 S_WALL = '*';
+	 S_PLYR = '+';
+	 FLAGS.free_sp = 0;
+	 FLAGS.player = 0;
+ }
+
  int main(int ac, char **av)
  {
  	t_wolf	*wolf;
@@ -55,6 +65,7 @@ static void	init_wolf(t_wolf *wolf)
  	if (!wolf)
  		w_error(ERR_MALLOC);
 
+	init_param(wolf);
 
  	fd = open(av[1], O_RDONLY);
  	w_valid_map(wolf, fd);

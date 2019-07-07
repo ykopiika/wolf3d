@@ -39,6 +39,45 @@ static t_read	*malloc_lst(t_read *read, char *str)
 	}
 }
 
+static void first_line(t_wolf *wolf)
+{
+	if (ft_strcmp(READ->line, "labyrinth_size: 15") == 0)
+		LBRNT.size = 15;
+	else if (ft_strcmp(READ->line, "labyrinth_size: 25") == 0)
+		LBRNT.size = 25;
+	else if (ft_strcmp(READ->line, "labyrinth_size: 35") == 0)
+		LBRNT.size = 35;
+	else
+		w_error(ERR_SIZE);
+}
+
+static void w_valid_read(t_wolf *wolf)
+{
+	int i;
+	int j;
+
+	i = 0;
+	first_line(wolf);
+	while(READ->next)
+	{
+		READ = READ->next;
+		if (READ->len != LBRNT.size)
+			w_error(ERR_LENGTH);
+		if (i == 0 || i == (LBRNT.size - 1))
+		{
+			j = -1;
+			while (++j < READ->len)
+				if (READ->line[j] != S_WALL)
+					w_error(ERR_WALL);
+		}
+		if ((READ->line[0] != S_WALL) || (READ->line[READ->len - 1] != S_WALL))
+			w_error(ERR_WALL);
+		i++;
+	}
+	if (i != LBRNT.size)
+		w_error(ERR_HEIGHT);
+}
+
 void	w_valid_map(t_wolf *wolf, int fd)
 {
 	int		gnl;
@@ -46,22 +85,17 @@ void	w_valid_map(t_wolf *wolf, int fd)
 
 	gnl = 0;
 	string = NULL;
-	wolf->read = NULL;
+	READ = NULL;
 	while ((gnl = get_next_line(fd, &string)) == 1)
 	{
-		wolf->read = malloc_lst(wolf->read, string);
+		READ = malloc_lst(READ, string);
 		ft_strdel(&string);
 		printf("%d \t %d %s$\n", wolf->read->row,
 				wolf->read->len, wolf->read->line);
 	}
-	if ((wolf->read == NULL) || gnl == -1)
+	if ((READ == NULL) || gnl == -1)
 		w_error(ERR_ARGV);
-
-//	while (wolf->l->prev)
-//	{
-//		if (wolf->l->col != wolf->l->prev->col)
-//			f_error("Found wrong line length. Exiting.");
-//		wolf->l->prev->row = wolf->l->row;
-//		wolf->l = wolf->l->prev;
-//	}
+	while (READ->prev != NULL)
+		READ = READ->prev;
+	w_valid_read(wolf);
 }

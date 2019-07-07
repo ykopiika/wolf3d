@@ -16,6 +16,7 @@
 ////////////////////////
 # include <stdio.h>/////
 # include <stdbool.h>///
+# include "color.h"///
 ////////////////////////
 
 # include <fcntl.h>
@@ -27,22 +28,31 @@
 
 # define WIN		wolf->sdl_data.win
 # define SURF_WIN	wolf->sdl_data.surf_win
-
-# define ERR_USAGE	0
-# define ERR_MALLOC	1
-# define ERR_SDL	2
-# define ERR_ARGV	3
+# define READ		wolf->read
+# define LBRNT		wolf->lbrnt
+# define FLAGS		wolf->flags
 
 # define S_PLYR		wolf->smbl.plyr
 # define S_WALL		wolf->smbl.wall
 # define S_FREE		wolf->smbl.free
 
-# define S_SIZE	15
-# define M_SIZE	25
-# define L_SIZE	35
+# define ERR_USAGE	0
+# define ERR_MALLOC	1
+# define ERR_SDL	2
+# define ERR_ARGV	3
+# define ERR_LENGTH	4
+# define ERR_HEIGHT	5
+# define ERR_SIZE	6
+# define ERR_WALL	7
 
 # define WDTH 1200
 # define HGHT 800
+
+typedef struct			s_labyrinth
+{
+	int 				size;
+	char 				**map;
+}						t_labyrinth;
 
 typedef struct			s_sdl_ptr
 {
@@ -60,6 +70,12 @@ typedef struct			s_read
 	struct s_read		*prev;
 }						t_read;
 
+typedef struct			s_flags
+{
+	int 				free_sp;
+	int 				player;
+}						t_flags;
+
 typedef struct			s_symb_lab
 {
 	char 				plyr;
@@ -69,9 +85,11 @@ typedef struct			s_symb_lab
 
 typedef struct			s_wolf
 {
+	t_labyrinth			lbrnt;
 	t_symb_lab			smbl;
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
+	t_flags				flags;
 
 	SDL_Surface 		*bmp;
 	SDL_Surface 		*bmp_b;

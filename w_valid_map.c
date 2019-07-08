@@ -41,20 +41,18 @@ static t_read	*malloc_lst(t_read *read, char *str)
 
 static void first_line(t_wolf *wolf)
 {
-	if (ft_strcmp(READ->line, "labyrinth_size: 15") == 0)
-		LBRNT.size = 15;
-	else if (ft_strcmp(READ->line, "labyrinth_size: 25") == 0)
-		LBRNT.size = 25;
-	else if (ft_strcmp(READ->line, "labyrinth_size: 35") == 0)
-		LBRNT.size = 35;
+	if (ft_strcmp(READ->line, "labyrinth_size: 16") == 0)
+		LBRNT.size = 16;
+	else if (ft_strcmp(READ->line, "labyrinth_size: 26") == 0)
+		LBRNT.size = 26;
+	else if (ft_strcmp(READ->line, "labyrinth_size: 36") == 0)
+		LBRNT.size = 36;
 	else
 		w_error(ERR_SIZE);
 }
 
-static void cheack_line(t_wolf *wolf, int i)
+static void cheack_line(t_wolf *wolf, int i, int j)
 {
-	int j;
-
 	if (READ->len != LBRNT.size)
 		w_error(ERR_LENGTH);
 	if (i == 0 || i == (LBRNT.size - 1))
@@ -75,6 +73,9 @@ static void cheack_line(t_wolf *wolf, int i)
 				FLAGS.free_sp = 1;
 			if (READ->line[j] == S_PLYR)
 				FLAGS.player = 1;
+			if (READ->line[j] != S_FREE && READ->line[j] != S_PLYR
+				&& READ->line[j] != S_WALL)
+				w_error(ERR_WRONG_SYMBOL);
 		}
 	}
 }
@@ -82,8 +83,10 @@ static void cheack_line(t_wolf *wolf, int i)
 static void w_valid_read(t_wolf *wolf)
 {
 	int i;
+	int j;
 
 	i = 0;
+	j = -1;
 	first_line(wolf);
 	LBRNT.map = (char**)malloc(sizeof(char*) * LBRNT.size);
 	if (!LBRNT.map)
@@ -91,8 +94,9 @@ static void w_valid_read(t_wolf *wolf)
 	while(READ->next)
 	{
 		READ = READ->next;
-		cheack_line(wolf, i);
+		cheack_line(wolf, i, j);
 		LBRNT.map[i] = READ->line;
+		printf(T_RED"%s\n"R, LBRNT.map[i]);
 		i++;
 	}
 	if (i != LBRNT.size)

@@ -19,6 +19,9 @@ static void	init_wolf(t_wolf *wolf)
 	WIN = SDL_CreateWindow("Hello SDL World",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			WDTH, HGHT, SDL_WINDOW_ALLOW_HIGHDPI);
+
+
+
 	if (!WIN)
 		w_error(ERR_SDL);
 
@@ -29,6 +32,8 @@ static void	init_wolf(t_wolf *wolf)
 	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
 	SDL_UpdateWindowSurface(WIN);
 	SDL_Delay(50);
+
+
 }
 
  static void w_event(t_wolf *wolf)
@@ -41,6 +46,9 @@ static void	init_wolf(t_wolf *wolf)
 			 if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type
 			 		&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
 				 running = 0;
+
+	 SDL_DestroyRenderer(REN);
+
 	 SDL_DestroyWindow(WIN);
 	 SDL_Quit();
  }
@@ -72,6 +80,7 @@ static void	init_wolf(t_wolf *wolf)
  	close(fd);
 
  	init_wolf(wolf);
+ 	w_sdl(wolf);
 
  	w_event(wolf);
  	system ("leaks -q wolf3d");

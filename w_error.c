@@ -61,4 +61,9 @@ void	w_error(int err_nb)
 		ft_putendl("There is no free place for a player in your labyrinth");
 		exit(err_nb);
 	}
+	else if (err_nb == ERR_WRONG_SYMBOL)
+	{
+		ft_putendl("Detected invalid symbol in the labyrinth");
+		exit(err_nb);
+	}
 }

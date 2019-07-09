@@ -28,6 +28,7 @@
 
 # define WIN		wolf->sdl_data.win
 # define REN		wolf->sdl_data.ren
+# define EVENT		wolf->sdl_data.event
 # define SURF_WIN	wolf->sdl_data.surf_win
 # define READ		wolf->read
 # define LBRNT		wolf->lbrnt
@@ -66,8 +67,10 @@ typedef struct			s_labyrinth
 typedef struct			s_sdl_ptr
 {
 	SDL_Window 			*win;
-	SDL_Renderer 		*ren;
 	SDL_Surface 		*surf_win;
+
+	SDL_Renderer 		*ren;
+	SDL_Event 			event;
 }						t_sdl_ptr;
 
 typedef struct			s_read
@@ -107,6 +110,8 @@ typedef struct			s_wolf
 
 void	w_error(int err_nb);
 void	w_valid_map(t_wolf *wolf, int fd);
-void	w_sdl(t_wolf *wolf);
+void	w_lodev(t_wolf *wolf);
+void w_event(t_wolf *wolf);
+void w_experyment(t_wolf *wolf);
 
 #endif

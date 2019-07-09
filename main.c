@@ -36,15 +36,14 @@ static void	init_wolf(t_wolf *wolf)
 
 }
 
- static void w_event(t_wolf *wolf)
+void w_event(t_wolf *wolf)
  {
 	 int running = 1;
-	 SDL_Event event;
 
 	 while (running)
-		 while(SDL_PollEvent(&event))
-			 if((SDL_QUIT == event.type) || (SDL_KEYDOWN == event.type
-			 		&& SDL_SCANCODE_ESCAPE == event.key.keysym.scancode))
+		 while(SDL_PollEvent(&EVENT))
+			 if((SDL_QUIT == EVENT.type) || (SDL_KEYDOWN == EVENT.type
+			 		&& SDL_SCANCODE_ESCAPE == EVENT.key.keysym.scancode))
 				 running = 0;
 
 	 SDL_DestroyRenderer(REN);
@@ -80,7 +79,9 @@ static void	init_wolf(t_wolf *wolf)
  	close(fd);
 
  	init_wolf(wolf);
- 	w_sdl(wolf);
+
+ 	w_experyment(wolf);
+// 	w_lodev(wolf);
 
  	w_event(wolf);
  	system ("leaks -q wolf3d");

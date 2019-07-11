@@ -96,7 +96,7 @@ static void w_valid_read(t_wolf *wolf)
 		READ = READ->next;
 		cheack_line(wolf, i, j);
 		LBRNT.map[i] = READ->line;
-		printf(T_RED"%s\n"R, LBRNT.map[i]);
+//		printf(T_RED"%s\n"R, LBRNT.map[i]);
 		i++;
 	}
 	if (i != LBRNT.size)

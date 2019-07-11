@@ -62,6 +62,15 @@ typedef struct			s_labyrinth
 {
 	int 				size;
 	char 				**map;
+	int 				rays;
+
+	double 				posX;
+	double 				posY;
+	double 				dirX;
+	double 				dirY;
+	double 				planeX;
+	double 				planeY;
+
 }						t_labyrinth;
 
 typedef struct			s_sdl_ptr
@@ -88,6 +97,12 @@ typedef struct			s_flags
 	int 				free_sp;
 	int 				player;
 }						t_flags;
+
+typedef struct			s_point
+{
+	double 				x;
+	double 				y;
+}						t_point;
 
 typedef struct			s_symb_lab
 {

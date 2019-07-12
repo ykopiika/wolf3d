@@ -31,8 +31,9 @@
 # define EVENT		wolf->sdl_data.event
 # define SURF_WIN	wolf->sdl_data.surf_win
 # define READ		wolf->read
-# define LBRNT		wolf->lbrnt
 # define FLAGS		wolf->flags
+# define LBRNT		wolf->lbrnt
+# define VALUE		wolf->value
 
 # define S_PLYR		wolf->smbl.plyr
 # define S_WALL		wolf->smbl.wall
@@ -63,6 +64,7 @@ typedef struct			s_labyrinth
 	int 				size;
 	char 				**map;
 	int 				rays;
+	int 				turn;
 
 	double 				posX;
 	double 				posY;
@@ -114,6 +116,7 @@ typedef struct			s_symb_lab
 typedef struct			s_wolf
 {
 	t_labyrinth			lbrnt;
+	t_labyrinth			value;
 	t_symb_lab			smbl;
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
@@ -128,5 +131,6 @@ void	w_valid_map(t_wolf *wolf, int fd);
 void	w_lodev(t_wolf *wolf);
 void w_event(t_wolf *wolf);
 void w_experyment(t_wolf *wolf);
+void w_key_hook(t_wolf *wolf, int *running);
 
 #endif

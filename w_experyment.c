@@ -1,6 +1,6 @@
 #include "main.h"
 
-static void print_position(t_wolf *wolf, int posX, int posY)
+void print_position(t_wolf *wolf, int posX, int posY)
 {
 	int i = 0;
 
@@ -20,26 +20,6 @@ static void print_position(t_wolf *wolf, int posX, int posY)
 	}
 }
 
-//static	void	print_img_data(t_wolf *wolf)
-//{
-//	int *data;
-//	int x = -1;
-//	int y = -1;
-//
-//	SDL_memset(SURF_WIN->pixels, 0, SURF_WIN->h * SURF_WIN->pitch);
-//
-//	data = SURF_WIN->pixels;
-//	while (++y < HGHT)
-//	{
-//		x = -1;
-//		while (++x < WDTH)
-//		{
-//			if (y % 10 == 0 || x % 10 == 0)
-//				data[(y * WDTH) + x] = (RGB_Red);
-//		}
-//	}
-//	SDL_UpdateWindowSurface(WIN);
-//}
 
 static void print_ray(t_wolf *wolf, int drawStart, int drawEnd, int color, int ray)
 {
@@ -77,7 +57,7 @@ void w_experyment(t_wolf *wolf)
 
 	double posX = LBRNT.posX;
 	double posY = LBRNT.posY;
-	print_position(wolf, posX, posY);
+//	print_position(wolf, posX, posY);
 	double dirX = LBRNT.dirX;
 	double dirY = LBRNT.dirY;
 	double planeX = LBRNT.planeX;

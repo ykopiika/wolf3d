@@ -129,8 +129,8 @@ typedef struct			s_wolf
 void	w_error(int err_nb);
 void	w_valid_map(t_wolf *wolf, int fd);
 void	w_lodev(t_wolf *wolf);
-void w_event(t_wolf *wolf);
-void w_experyment(t_wolf *wolf);
-void w_key_hook(t_wolf *wolf, int *running);
+void	w_event(t_wolf *wolf);
+void	w_experyment(t_wolf *wolf);
+void	w_key_hook(t_wolf *wolf, int *running);
 
 #endif

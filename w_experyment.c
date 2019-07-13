@@ -63,7 +63,7 @@ void w_experyment(t_wolf *wolf)
 	double planeX = LBRNT.planeX;
 	double planeY = LBRNT.planeY;
 
-	printf("pos: %f, %f\n", LBRNT.posX, LBRNT.posY);
+//	printf("pos: %f, %f\n", LBRNT.posX, LBRNT.posY);
 	while (ray < LBRNT.rays)
 	{
 		double cameraX = 1 - (2.0 * (double)ray / LBRNT.rays);
@@ -154,10 +154,16 @@ void w_experyment(t_wolf *wolf)
 			if (side == 1)
 				color = RGB_Red;	///down
 		}
-
 		print_ray(wolf, drawStart, drawEnd, color, ray);
-		if ((ray == 0) || (ray == (LBRNT.rays - 2)))
-			printf("%d - h\n", (drawEnd - drawStart));
+//		if ((ray == 0) || (ray == (LBRNT.rays - 2)))
+//			if (LBRNT.turn == 0
+//				|| abs(LBRNT.turn) == 15
+//				|| abs(LBRNT.turn) == 60
+//				|| abs(LBRNT.turn) == 45
+//				|| abs(LBRNT.turn) == 30)
+//			{
+//				printf(T_RED"%d - h\n"R, (drawEnd - drawStart));
+//			}
 		ray++;
 	}
 //	printf("%d / %d - rays/LB ray\n",);

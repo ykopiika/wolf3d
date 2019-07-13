@@ -29,6 +29,14 @@ static void	init_wolf(t_wolf *wolf)
 	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
 	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
 	SDL_UpdateWindowSurface(WIN);
+
+//	REN = SDL_CreateRenderer( WIN, -1, SDL_RENDERER_ACCELERATED );
+//	SDL_RenderSetLogicalSize( REN, WDTH, HGHT );
+//	SDL_RenderClear (REN);
+//	SDL_SetRenderDrawColor( REN, 255, 0, 0, 255 );
+//	SDL_RenderDrawLine(REN,0,0,20,20);
+//	SDL_RenderPresent (REN);
+
 //	SDL_Delay(50);
 //		t_point	left;
 //		t_point	right;

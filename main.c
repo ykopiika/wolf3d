@@ -69,8 +69,8 @@ void w_event(t_wolf *wolf)
 	 LBRNT.rays = 400;
 	 LBRNT.turn = 0;
 
-	 LBRNT.posX = 12.5;
-	 LBRNT.posY = 20.5;
+	 LBRNT.posX = 24.5;
+	 LBRNT.posY = 2.5;
 	 LBRNT.dirX = -1;
 	 LBRNT.dirY = 0;
 	 LBRNT.planeX = 0;

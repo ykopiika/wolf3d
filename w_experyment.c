@@ -141,18 +141,24 @@ void w_experyment(t_wolf *wolf)
 
 		int color;
 		color = 255;	///left
-		if (dirX >= 0)
-			color = RGB_Blue;	///right
+//		if (dirX >= 0)
+//			color = RGB_Blue;	///right
 
 		if ((rayDirX < 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY < 0))
 		{
 			if (side == 1)
 				color = RGB_Green;	///up
+
 		}
 		if ((rayDirX < 0 && rayDirY >= 0) || (rayDirX >= 0 && rayDirY >= 0))
 		{
 			if (side == 1)
 				color = RGB_Red;	///down
+		}
+		if ((rayDirX >= 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY >= 0))
+		{
+			if (side == 0)
+				color = RGB_Yellow;	///down
 		}
 		print_ray(wolf, drawStart, drawEnd, color, ray);
 //		if ((ray == 0) || (ray == (LBRNT.rays - 2)))

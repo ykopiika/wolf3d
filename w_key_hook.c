@@ -91,6 +91,7 @@ void w_key_hook(t_wolf *wolf, int *running)
 	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_DOWN == EVENT.key.keysym.scancode))
 	{
 		printf("DOWN\n");
+
 		LBRNT.posX -= 0.1 * LBRNT.dirX;
 		LBRNT.posY -= 0.1 * LBRNT.dirY;
 		w_experyment(wolf);
@@ -123,6 +124,8 @@ void w_key_hook(t_wolf *wolf, int *running)
 		turn_left_right(wolf);
 
 	}
+	if (SDL_KEYDOWN == EVENT.type)
+		printf(T_GRN"%.2f %.2f"R" - x y\n", LBRNT.posX, LBRNT.posY);
 
 }
 

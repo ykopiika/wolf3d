@@ -42,6 +42,8 @@ static void	init_wolf(t_wolf *wolf)
 //		t_point	right;
 //		left = (t_point){.x = -0.049, .y = 0.998};
 //		right = (t_point){.x = 0.049, .y = 0.998};
+
+
 }
 
 void w_event(t_wolf *wolf)
@@ -49,8 +51,17 @@ void w_event(t_wolf *wolf)
 	 int running = 1;
 
 	 while (running)
+	 {
+		 FRAME.oldTime = FRAME.time;
+		 FRAME.time = SDL_GetTicks();
+		 FRAME.frameTime = (FRAME.time - FRAME.oldTime) / 1000.0;
+		 FRAME.moveSpeed = FRAME.frameTime * 5.0;
+		 FRAME.rotSpeed = FRAME.frameTime * 3.0;
 		 while(SDL_PollEvent(&EVENT))
+		 {
 		 	w_key_hook(wolf, &running);
+		 }
+	 }
 
 //	 SDL_DestroyRenderer(REN);
 
@@ -66,7 +77,7 @@ void w_event(t_wolf *wolf)
 	 S_PLYR = '+';
 	 FLAGS.free_sp = 0;
 	 FLAGS.player = 0;
-	 LBRNT.rays = 400;
+	 LBRNT.rays = 1200;
 	 LBRNT.turn = 0;
 
 	 LBRNT.posX = 24.5;

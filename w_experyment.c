@@ -20,7 +20,6 @@ void print_position(t_wolf *wolf, int posX, int posY)
 	}
 }
 
-
 static void print_ray(t_wolf *wolf, int drawStart, int drawEnd, int color, int ray)
 {
 	int step = WDTH/LBRNT.rays;
@@ -141,14 +140,11 @@ void w_experyment(t_wolf *wolf)
 
 		int color;
 		color = 255;	///left
-//		if (dirX >= 0)
-//			color = RGB_Blue;	///right
 
 		if ((rayDirX < 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY < 0))
 		{
 			if (side == 1)
 				color = RGB_Green;	///up
-
 		}
 		if ((rayDirX < 0 && rayDirY >= 0) || (rayDirX >= 0 && rayDirY >= 0))
 		{

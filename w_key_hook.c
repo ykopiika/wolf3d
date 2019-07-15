@@ -83,49 +83,85 @@ static void turn_left_right(t_wolf *wolf)
 	}
 }
 
+static void moov_in_map(t_wolf *wolf, int key)
+{
+//	double mv_x = 0.1 * LBRNT.dirX;
+//	double mv_y = 0.1 * LBRNT.dirY;
+
+	double mv_x = FRAME.moveSpeed * LBRNT.dirX;
+	double mv_y = FRAME.moveSpeed * LBRNT.dirY;
+
+	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_DOWN == key))
+	{
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - mv_x)] == S_FREE)
+			LBRNT.posX -= mv_x;
+		if (LBRNT.map[(int)(LBRNT.posY - mv_y)][(int)LBRNT.posX] == S_FREE)
+			LBRNT.posY -= mv_y;
+	}
+	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_UP == key))
+	{
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + mv_x)] == S_FREE)
+			LBRNT.posX += mv_x;
+		if (LBRNT.map[(int)(LBRNT.posY + mv_y)][(int)LBRNT.posX] == S_FREE)
+			LBRNT.posY += mv_y;
+	}
+	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_RIGHT == key))
+	{
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - mv_y)] == S_FREE)
+			LBRNT.posX -= mv_y;
+		if (LBRNT.map[(int)(LBRNT.posY + mv_x)][(int)LBRNT.posX] == S_FREE)
+			LBRNT.posY += mv_x;
+	}
+	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_LEFT == key))
+	{
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + mv_y)] == S_FREE)
+			LBRNT.posX += mv_y;
+		if (LBRNT.map[(int)(LBRNT.posY - mv_x)][(int)LBRNT.posX] == S_FREE)
+			LBRNT.posY -= mv_x;
+	}
+	w_experyment(wolf);
+//	if (SDL_KEYDOWN == EVENT.type
+//		&& (key == SDL_SCANCODE_DOWN
+//			|| key == SDL_SCANCODE_UP))
+//		moov_in_map(wolf,key);
+//	if ((SDL_KEYDOWN == EVENT.type && key == SDL_SCANCODE_UP))
+//		moov_in_map(wolf,key);
+//	if ((SDL_KEYDOWN == EVENT.type && key == SDL_SCANCODE_RIGHT))
+//		moov_in_map(wolf,key);
+//	if ((SDL_KEYDOWN == EVENT.type && key == SDL_SCANCODE_LEFT))
+//		moov_in_map(wolf,key);
+}
+
 void w_key_hook(t_wolf *wolf, int *running)
 {
-	if((SDL_QUIT == EVENT.type) || (SDL_KEYDOWN == EVENT.type
-									&& SDL_SCANCODE_ESCAPE == EVENT.key.keysym.scancode))
-		*running = 0;
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_DOWN == EVENT.key.keysym.scancode))
-	{
-		printf("DOWN\n");
+	int key;
 
-		LBRNT.posX -= 0.1 * LBRNT.dirX;
-		LBRNT.posY -= 0.1 * LBRNT.dirY;
-		w_experyment(wolf);
-	}
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_UP == EVENT.key.keysym.scancode))
-	{
-		printf("UP\n");
-		LBRNT.posX += 0.1 * LBRNT.dirX;
-		LBRNT.posY += 0.1 * LBRNT.dirY;
-		w_experyment(wolf);
-	}
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_RIGHT == EVENT.key.keysym.scancode))
-	{
-		printf("RIGHT\n");
-		LBRNT.posX -= 0.1 * LBRNT.dirY;
-		LBRNT.posY += 0.1 * LBRNT.dirX;
-		w_experyment(wolf);
-	}
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_LEFT == EVENT.key.keysym.scancode))
-	{
-		printf("LEFT\n");
-		LBRNT.posX += 0.1 * LBRNT.dirY;
-		LBRNT.posY -= 0.1 * LBRNT.dirX;
-		w_experyment(wolf);
-	}
-	if (SDL_KEYDOWN == EVENT.type &&
-			((SDL_SCANCODE_D == EVENT.key.keysym.scancode)
-			|| (SDL_SCANCODE_A == EVENT.key.keysym.scancode)))
-	{
+	FRAME.oldTime = FRAME.time;
+	FRAME.time = SDL_GetTicks();
+	FRAME.frameTime = (FRAME.time - FRAME.oldTime) / 1000.0;
+	FRAME.moveSpeed = FRAME.frameTime * 5.0;
+	FRAME.rotSpeed = FRAME.frameTime * 3.0;
+
+
+	key = EVENT.key.keysym.scancode;
+	if(EVENT.type == SDL_QUIT
+		|| (EVENT.type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
+		*running = 0;
+
+	if (EVENT.type == SDL_KEYDOWN
+		&& (key == SDL_SCANCODE_DOWN || key == SDL_SCANCODE_UP
+		|| key == SDL_SCANCODE_RIGHT || key == SDL_SCANCODE_LEFT))
+		moov_in_map(wolf,key);
+
+	if (EVENT.type == SDL_KEYDOWN && (key == SDL_SCANCODE_D
+			|| key == SDL_SCANCODE_A))
 		turn_left_right(wolf);
 
-	}
-	if (SDL_KEYDOWN == EVENT.type)
+	if (EVENT.type == SDL_KEYDOWN)
+	{
 		printf(T_GRN"%.2f %.2f"R" - x y\n", LBRNT.posX, LBRNT.posY);
+	}
+
 
 }
 

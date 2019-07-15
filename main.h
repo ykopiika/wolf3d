@@ -34,6 +34,7 @@
 # define FLAGS		wolf->flags
 # define LBRNT		wolf->lbrnt
 # define VALUE		wolf->value
+# define FRAME		wolf->frame
 
 # define S_PLYR		wolf->smbl.plyr
 # define S_WALL		wolf->smbl.wall
@@ -113,6 +114,15 @@ typedef struct			s_symb_lab
 	char 				wall;
 }						t_symb_lab;
 
+typedef struct			s_frame
+{
+	double				time;
+	double				oldTime;
+	double				frameTime;
+	double				moveSpeed;
+	double				rotSpeed;
+}						t_frame;
+
 typedef struct			s_wolf
 {
 	t_labyrinth			lbrnt;
@@ -121,6 +131,7 @@ typedef struct			s_wolf
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
 	t_flags				flags;
+	t_frame				frame;
 
 	SDL_Surface 		*bmp;
 	SDL_Surface 		*bmp_b;

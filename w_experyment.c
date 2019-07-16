@@ -20,7 +20,7 @@ void print_position(t_wolf *wolf, int posX, int posY)
 	}
 }
 
-static void print_ray(t_wolf *wolf, int drawStart, int drawEnd, int color, int ray)
+void print_ray(t_wolf *wolf, int drawStart, int drawEnd, int color, int ray)
 {
 	int step = WDTH/LBRNT.rays;
 	int *data;
@@ -48,6 +48,37 @@ static void print_ray(t_wolf *wolf, int drawStart, int drawEnd, int color, int r
 			data[(y * WDTH) + x] = 0x252626;
 	}
 }
+
+//void print_txt(t_wolf *wolf, int drawStart, int drawEnd, int ray)
+//{
+////	int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+//	int texNum = 0;
+//
+//	double wallX;
+//	int *dat_bmp = wolf->bmp->pixels;
+//	int texWidth = 64;
+//	int texHeight = 64;
+//	if (side == 0) wallX = posY + perpWallDist * rayDirY;
+//	else           wallX = posX + perpWallDist * rayDirX;
+//	wallX -= (int)(wallX);
+//
+//
+//	int texX = (int)(wallX * (double)(texWidth));
+//
+//	if(side == 0 && rayDirX > 0)
+//		texX = texWidth - texX - 1;
+//	if(side == 1 && rayDirY < 0)
+//		texX = texWidth - texX - 1;
+//	for(int y = drawStart; y < drawEnd; y++)
+//	{
+//		int d = y * 256 - HGHT * 128 + lineHeight * 128;
+//		int texY = ((d * texHeight) / lineHeight) / 256;
+////			int color = texture[texNum][texHeight * texY + texX];
+//		Uint32 color = dat_bmp[texHeight * texY + texX];
+//		if(side == 1) color = (color >> 1) & 8355711;
+//		buffer[y][x] = color;
+//	}
+//}
 
 void w_experyment(t_wolf *wolf)
 {
@@ -137,7 +168,7 @@ void w_experyment(t_wolf *wolf)
 		int drawEnd = lineHeight / 2 + HGHT / 2;
 		if(drawEnd >= HGHT)
 			drawEnd = HGHT - 1;
-
+//////////////////////////////////////////////////
 		int color;
 		color = 255;	///left
 
@@ -157,15 +188,10 @@ void w_experyment(t_wolf *wolf)
 				color = RGB_Yellow;	///down
 		}
 		print_ray(wolf, drawStart, drawEnd, color, ray);
-//		if ((ray == 0) || (ray == (LBRNT.rays - 2)))
-//			if (LBRNT.turn == 0
-//				|| abs(LBRNT.turn) == 15
-//				|| abs(LBRNT.turn) == 60
-//				|| abs(LBRNT.turn) == 45
-//				|| abs(LBRNT.turn) == 30)
-//			{
-//				printf(T_RED"%d - h\n"R, (drawEnd - drawStart));
-//			}
+////////////////////////////////////
+
+
+
 		ray++;
 	}
 //	printf("%d / %d - rays/LB ray\n",);

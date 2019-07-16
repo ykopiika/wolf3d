@@ -25,7 +25,6 @@ static void turn_left_right(t_wolf *wolf)
 	old_p = (t_point){.x = VALUE.dirX, .y = VALUE.dirY};
 	old_pl = (t_point){.x = VALUE.planeX, .y = VALUE.planeY};
 
-
 	if (LBRNT.turn == 15 || LBRNT.turn == -15)
 	{
 		if(LBRNT.turn < 0)
@@ -85,11 +84,8 @@ static void turn_left_right(t_wolf *wolf)
 
 static void moov_in_map(t_wolf *wolf, int key)
 {
-//	double mv_x = 0.1 * LBRNT.dirX;
-//	double mv_y = 0.1 * LBRNT.dirY;
-
-	double mv_x = FRAME.moveSpeed * LBRNT.dirX;
-	double mv_y = FRAME.moveSpeed * LBRNT.dirY;
+	double mv_x = 0.1 * LBRNT.dirX;
+	double mv_y = 0.1 * LBRNT.dirY;
 
 	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_DOWN == key))
 	{
@@ -136,13 +132,6 @@ void w_key_hook(t_wolf *wolf, int *running)
 {
 	int key;
 
-	FRAME.oldTime = FRAME.time;
-	FRAME.time = SDL_GetTicks();
-	FRAME.frameTime = (FRAME.time - FRAME.oldTime) / 1000.0;
-	FRAME.moveSpeed = FRAME.frameTime * 5.0;
-	FRAME.rotSpeed = FRAME.frameTime * 3.0;
-
-
 	key = EVENT.key.keysym.scancode;
 	if(EVENT.type == SDL_QUIT
 		|| (EVENT.type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
@@ -161,7 +150,6 @@ void w_key_hook(t_wolf *wolf, int *running)
 	{
 		printf(T_GRN"%.2f %.2f"R" - x y\n", LBRNT.posX, LBRNT.posY);
 	}
-
 
 }
 

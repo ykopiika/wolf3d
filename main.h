@@ -131,7 +131,7 @@ typedef struct			s_wolf
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
 	t_flags				flags;
-	t_frame				frame;
+//	t_frame				frame;
 
 	SDL_Surface 		*bmp;
 	SDL_Surface 		*bmp_b;

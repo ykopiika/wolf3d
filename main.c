@@ -24,10 +24,11 @@ static void	init_wolf(t_wolf *wolf)
 		w_error(ERR_SDL);
 
 	SURF_WIN = SDL_GetWindowSurface(WIN);
-	wolf->bmp_b = SDL_LoadBMP("../img/sur.bmp");
-	wolf->bmp = SDL_LoadBMP("../img/hello.bmp");
-	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
-	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
+//	wolf->bmp_b = SDL_LoadBMP("../img/sur.bmp");
+//	wolf->bmp = SDL_LoadBMP("../img/hello.bmp");
+	wolf->bmp = SDL_LoadBMP("../img/bricks.bmp");
+//	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
+//	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
 	SDL_UpdateWindowSurface(WIN);
 
 //	REN = SDL_CreateRenderer( WIN, -1, SDL_RENDERER_ACCELERATED );
@@ -43,7 +44,6 @@ static void	init_wolf(t_wolf *wolf)
 //		left = (t_point){.x = -0.049, .y = 0.998};
 //		right = (t_point){.x = 0.049, .y = 0.998};
 
-
 }
 
 void w_event(t_wolf *wolf)
@@ -52,11 +52,7 @@ void w_event(t_wolf *wolf)
 
 	 while (running)
 	 {
-		 FRAME.oldTime = FRAME.time;
-		 FRAME.time = SDL_GetTicks();
-		 FRAME.frameTime = (FRAME.time - FRAME.oldTime) / 1000.0;
-		 FRAME.moveSpeed = FRAME.frameTime * 5.0;
-		 FRAME.rotSpeed = FRAME.frameTime * 3.0;
+
 		 while(SDL_PollEvent(&EVENT))
 		 {
 		 	w_key_hook(wolf, &running);

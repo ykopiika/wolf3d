@@ -14,6 +14,7 @@
 
 static void turn_left_right(t_wolf *wolf)
 {
+	printf("Hello left right\n");
 	t_point	right;
 	t_point	left;
 	t_point	alpha;
@@ -50,14 +51,12 @@ static void turn_left_right(t_wolf *wolf)
 			LBRNT.planeY = 0.60;
 			LBRNT.turn = 0;
 	}
-	if (SDL_KEYDOWN == EVENT.type
-		&& SDL_SCANCODE_D == EVENT.key.keysym.scancode)
+	if (FLAGS.keydown_d == 1)
 	{
 		alpha = left;
 		LBRNT.turn++;
 	}
-	if (SDL_KEYDOWN == EVENT.type
-		&& SDL_SCANCODE_A == EVENT.key.keysym.scancode)
+	if (FLAGS.keydown_a == 1)
 	{
 		alpha = right;
 		LBRNT.turn--;
@@ -69,7 +68,7 @@ static void turn_left_right(t_wolf *wolf)
 	LBRNT.planeX = old_pl.x * alpha.y - old_pl.y * alpha.x;
 	LBRNT.planeY = old_pl.x * alpha.x + old_pl.y * alpha.y;
 
-	w_experyment(wolf);
+//	w_raycasting(wolf);
 	if (LBRNT.turn == 0
 		|| abs(LBRNT.turn) == 15
 		|| abs(LBRNT.turn) == 60
@@ -82,74 +81,61 @@ static void turn_left_right(t_wolf *wolf)
 	}
 }
 
-static void moov_in_map(t_wolf *wolf, int key)
+static void moov_in_map(t_wolf *wolf)
 {
 	double mv_x = 0.1 * LBRNT.dirX;
 	double mv_y = 0.1 * LBRNT.dirY;
 
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_DOWN == key))
+	if (FLAGS.keydown_down == 1)
 	{
 		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - mv_x)] == S_FREE)
 			LBRNT.posX -= mv_x;
 		if (LBRNT.map[(int)(LBRNT.posY - mv_y)][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY -= mv_y;
 	}
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_UP == key))
+	if (FLAGS.keydown_up == 1)
 	{
 		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + mv_x)] == S_FREE)
 			LBRNT.posX += mv_x;
 		if (LBRNT.map[(int)(LBRNT.posY + mv_y)][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY += mv_y;
 	}
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_RIGHT == key))
+	if (FLAGS.keydown_right == 1)
 	{
 		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - mv_y)] == S_FREE)
 			LBRNT.posX -= mv_y;
 		if (LBRNT.map[(int)(LBRNT.posY + mv_x)][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY += mv_x;
 	}
-	if ((SDL_KEYDOWN == EVENT.type && SDL_SCANCODE_LEFT == key))
+	if (FLAGS.keydown_left == 1)
 	{
 		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + mv_y)] == S_FREE)
 			LBRNT.posX += mv_y;
 		if (LBRNT.map[(int)(LBRNT.posY - mv_x)][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY -= mv_x;
 	}
-	w_experyment(wolf);
-//	if (SDL_KEYDOWN == EVENT.type
-//		&& (key == SDL_SCANCODE_DOWN
-//			|| key == SDL_SCANCODE_UP))
-//		moov_in_map(wolf,key);
-//	if ((SDL_KEYDOWN == EVENT.type && key == SDL_SCANCODE_UP))
-//		moov_in_map(wolf,key);
-//	if ((SDL_KEYDOWN == EVENT.type && key == SDL_SCANCODE_RIGHT))
-//		moov_in_map(wolf,key);
-//	if ((SDL_KEYDOWN == EVENT.type && key == SDL_SCANCODE_LEFT))
-//		moov_in_map(wolf,key);
+	printf("Hello left right\n");
+
+//	w_raycasting(wolf);
 }
 
-void w_key_hook(t_wolf *wolf, int *running)
+void w_key_hook(t_wolf *wolf)
 {
-	int key;
+//	int key;
+//
+//	key = EVENT.key.keysym.sym;
+		moov_in_map(wolf);
+//		printf("Hello\n");
 
-	key = EVENT.key.keysym.scancode;
-	if(EVENT.type == SDL_QUIT
-		|| (EVENT.type == SDL_KEYDOWN && key == SDL_SCANCODE_ESCAPE))
-		*running = 0;
-
-	if (EVENT.type == SDL_KEYDOWN
-		&& (key == SDL_SCANCODE_DOWN || key == SDL_SCANCODE_UP
-		|| key == SDL_SCANCODE_RIGHT || key == SDL_SCANCODE_LEFT))
-		moov_in_map(wolf,key);
-
-	if (EVENT.type == SDL_KEYDOWN && (key == SDL_SCANCODE_D
-			|| key == SDL_SCANCODE_A))
-		turn_left_right(wolf);
-
-	if (EVENT.type == SDL_KEYDOWN)
+	if (FLAGS.keydown_a == 1 || FLAGS.keydown_d == 1)
 	{
-		printf(T_GRN"%.2f %.2f"R" - x y\n", LBRNT.posX, LBRNT.posY);
+		printf("Hello left right\n");
+		turn_left_right(wolf);
 	}
 
+//	if (FLAGS.keydown == 1)
+//	{
+//		printf(T_GRN"%.2f %.2f"R" - x y\n", LBRNT.posX, LBRNT.posY);
+//	}
 }
 

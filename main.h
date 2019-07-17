@@ -99,6 +99,13 @@ typedef struct			s_flags
 {
 	int 				free_sp;
 	int 				player;
+
+	int 				keydown_a;
+	int 				keydown_d;
+	int 				keydown_up;
+	int 				keydown_down;
+	int 				keydown_right;
+	int 				keydown_left;
 }						t_flags;
 
 typedef struct			s_point
@@ -133,7 +140,7 @@ typedef struct			s_wolf
 	t_flags				flags;
 //	t_frame				frame;
 
-	SDL_Surface 		*bmp;
+	SDL_Surface 		**bmp;
 	SDL_Surface 		*bmp_b;
 }						t_wolf;
 
@@ -141,7 +148,7 @@ void	w_error(int err_nb);
 void	w_valid_map(t_wolf *wolf, int fd);
 void	w_lodev(t_wolf *wolf);
 void	w_event(t_wolf *wolf);
-void	w_experyment(t_wolf *wolf);
-void	w_key_hook(t_wolf *wolf, int *running);
+void	w_raycasting(t_wolf *wolf);
+void	w_key_hook(t_wolf *wolf);
 
 #endif

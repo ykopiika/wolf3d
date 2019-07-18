@@ -30,10 +30,11 @@ static void	init_wolf(t_wolf *wolf)
 	wolf->bmp[1] = SDL_LoadBMP("../img/lavaf4.bmp");
 	wolf->bmp[2] = SDL_LoadBMP("../img/leavesop.bmp");
 	wolf->bmp[3] = SDL_LoadBMP("../img/walkstone.bmp");
-	wolf->bmp[4] = SDL_LoadBMP("../img/brcks_g.bmp");
-	wolf->bmp[5] = SDL_LoadBMP("../img/leavesop.bmp");
-	wolf->bmp[6] = SDL_LoadBMP("../img/walk_r.bmp");
-	wolf->bmp[7] = SDL_LoadBMP("../img/brcks_r.bmp");
+
+	wolf->bmp[4] = SDL_LoadBMP("../img/bluestone.bmp");
+	wolf->bmp[5] = SDL_LoadBMP("../img/redbrick.bmp");
+	wolf->bmp[6] = SDL_LoadBMP("../img/wood.bmp");
+	wolf->bmp[7] = SDL_LoadBMP("../img/eagle.bmp");
 //	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
 //	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
 	SDL_UpdateWindowSurface(WIN);

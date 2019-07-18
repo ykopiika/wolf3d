@@ -23,31 +23,20 @@ static void	init_wolf(t_wolf *wolf)
 		w_error(ERR_SDL);
 
 	SURF_WIN = SDL_GetWindowSurface(WIN);
-//	wolf->bmp_b = SDL_LoadBMP("../img/sur.bmp");
-//	wolf->bmp = SDL_LoadBMP("../img/hello.bmp");
-	wolf->bmp = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 4);
+	wolf->bmp = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 8);
 	if (!wolf->bmp)
 		w_error(ERR_MALLOC);
 	wolf->bmp[0] = SDL_LoadBMP("../img/bricks.bmp");
 	wolf->bmp[1] = SDL_LoadBMP("../img/lavaf4.bmp");
 	wolf->bmp[2] = SDL_LoadBMP("../img/leavesop.bmp");
 	wolf->bmp[3] = SDL_LoadBMP("../img/walkstone.bmp");
+	wolf->bmp[4] = SDL_LoadBMP("../img/brcks_g.bmp");
+	wolf->bmp[5] = SDL_LoadBMP("../img/leavesop.bmp");
+	wolf->bmp[6] = SDL_LoadBMP("../img/walk_r.bmp");
+	wolf->bmp[7] = SDL_LoadBMP("../img/brcks_r.bmp");
 //	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
 //	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
 	SDL_UpdateWindowSurface(WIN);
-
-//	REN = SDL_CreateRenderer( WIN, -1, SDL_RENDERER_ACCELERATED );
-//	SDL_RenderSetLogicalSize( REN, WDTH, HGHT );
-//	SDL_RenderClear (REN);
-//	SDL_SetRenderDrawColor( REN, 255, 0, 0, 255 );
-//	SDL_RenderDrawLine(REN,0,0,20,20);
-//	SDL_RenderPresent (REN);
-
-//	SDL_Delay(50);
-//		t_point	left;
-//		t_point	right;
-//		left = (t_point){.x = -0.049, .y = 0.998};
-//		right = (t_point){.x = 0.049, .y = 0.998};
 
 }
 
@@ -56,10 +45,13 @@ void w_event(t_wolf *wolf)
 	 int running = 1;
 	 int key;
 
-
 	 while (running)
 	 {
-
+		FRAME.oldTime = FRAME.time;
+		FRAME.time = SDL_GetTicks();
+		FRAME.frameTime = (FRAME.time - FRAME.oldTime) / 1000.0;
+		FRAME.moveSpeed = FRAME.frameTime * 5.0;
+		FRAME.rotSpeed = FRAME.frameTime * 3.0;
 		 while(SDL_PollEvent(&EVENT))
 		 {
 		 	key = EVENT.key.keysym.sym;
@@ -97,17 +89,13 @@ void w_event(t_wolf *wolf)
 			 if (EVENT.type == SDL_KEYUP && key == SDLK_RIGHT)
 				 FLAGS.keydown_right = 0;
 
+			 if (EVENT.type == SDL_KEYDOWN && key == SDLK_t)
+				 FLAGS.textur = (FLAGS.textur == 0) ? 4 : 0;
 
-		 }
-		 if (FLAGS.keydown_a == 1)
-		 {
-		 	printf(T_PNK"Aaaaaaa\n"R);
 		 }
 		 w_key_hook(wolf);
 		 w_raycasting(wolf);
 	 }
-
-//	 SDL_DestroyRenderer(REN);
 
 	 SDL_DestroyWindow(WIN);
 	 SDL_Quit();
@@ -123,9 +111,10 @@ void w_event(t_wolf *wolf)
 	 FLAGS.player = 0;
 	 LBRNT.rays = 1200;
 	 LBRNT.turn = 0;
+	 FLAGS.textur = 0;
 
-	 LBRNT.posX = 24.5;
-	 LBRNT.posY = 2.5;
+	 LBRNT.posX = 12.5;
+	 LBRNT.posY = 12.5;
 	 LBRNT.dirX = -1;
 	 LBRNT.dirY = 0;
 	 LBRNT.planeX = 0;
@@ -153,7 +142,6 @@ void w_event(t_wolf *wolf)
  	init_wolf(wolf);
 
 	 w_raycasting(wolf);
-// 	w_lodev(wolf);
 
  	w_event(wolf);
  	system ("leaks -q wolf3d");

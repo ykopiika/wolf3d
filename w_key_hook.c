@@ -14,128 +14,73 @@
 
 static void turn_left_right(t_wolf *wolf)
 {
-	printf("Hello left right\n");
 	t_point	right;
 	t_point	left;
 	t_point	alpha;
 	t_point	old_p;
 	t_point	old_pl;
 
-	right = (t_point){.y =  0.9945,.x =  -0.1045 };
-	left =  (t_point){.y = 0.9945,.x = 0.1045};
-	old_p = (t_point){.x = VALUE.dirX, .y = VALUE.dirY};
-	old_pl = (t_point){.x = VALUE.planeX, .y = VALUE.planeY};
-
-	if (LBRNT.turn == 15 || LBRNT.turn == -15)
-	{
-		if(LBRNT.turn < 0)
-		{
-			LBRNT.dirX = 0;
-			LBRNT.dirY = 1;
-			LBRNT.planeX = 0.60;
-			LBRNT.planeY = 0;
-		}
-		else
-		{
-			LBRNT.dirX = 0;
-			LBRNT.dirY = -1;
-			LBRNT.planeX = -0.60;
-			LBRNT.planeY = 0;
-		}
-	}
-	if (LBRNT.turn == 60 || LBRNT.turn == -60)
-	{
-			LBRNT.dirX = -1;
-			LBRNT.dirY = 0;
-			LBRNT.planeX = 0;
-			LBRNT.planeY = 0.60;
-			LBRNT.turn = 0;
-	}
+	left = (t_point){.y = cos(FRAME.rotSpeed),.x =  sin(FRAME.rotSpeed)};
+	right =  (t_point){.y = cos(-FRAME.rotSpeed),.x =  sin(-FRAME.rotSpeed)};
 	if (FLAGS.keydown_d == 1)
-	{
 		alpha = left;
-		LBRNT.turn++;
-	}
 	if (FLAGS.keydown_a == 1)
-	{
 		alpha = right;
-		LBRNT.turn--;
-	}
 	old_p = (t_point){.x = LBRNT.dirX, .y = LBRNT.dirY};
 	old_pl = (t_point){.x = LBRNT.planeX, .y = LBRNT.planeY};
 	LBRNT.dirX = old_p.x * alpha.y - old_p.y * alpha.x;
 	LBRNT.dirY = (old_p.x * alpha.x) + (old_p.y * alpha.y);
 	LBRNT.planeX = old_pl.x * alpha.y - old_pl.y * alpha.x;
 	LBRNT.planeY = old_pl.x * alpha.x + old_pl.y * alpha.y;
-
-//	w_raycasting(wolf);
-	if (LBRNT.turn == 0
-		|| abs(LBRNT.turn) == 15
-		|| abs(LBRNT.turn) == 60
-		|| abs(LBRNT.turn) == 45
-		|| abs(LBRNT.turn) == 30)
-	{
-		printf(T_YEL"\n%d"R" - turn\n", LBRNT.turn);
-		printf("%f\t %f\t - dirX dirY\n", LBRNT.dirX, LBRNT.dirY);
-		printf("%f\t %f\t - pl_X pl_Y\n", LBRNT.planeX, LBRNT.planeY);
-	}
 }
 
 static void moov_in_map(t_wolf *wolf)
 {
-	double mv_x = 0.1 * LBRNT.dirX;
-	double mv_y = 0.1 * LBRNT.dirY;
+//	double mv_x = 0.03 * LBRNT.dirX;
+//	double mv_y = 0.03 * LBRNT.dirY;
+
+	double mv_x = FRAME.moveSpeed * LBRNT.dirX;
+	double mv_y = FRAME.moveSpeed * LBRNT.dirY;
+	double a = 1.5;
 
 	if (FLAGS.keydown_down == 1)
 	{
-		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - mv_x)] == S_FREE)
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - (mv_x* a))] == S_FREE)
 			LBRNT.posX -= mv_x;
-		if (LBRNT.map[(int)(LBRNT.posY - mv_y)][(int)LBRNT.posX] == S_FREE)
+		if (LBRNT.map[(int)(LBRNT.posY - (mv_y* a))][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY -= mv_y;
 	}
 	if (FLAGS.keydown_up == 1)
 	{
-		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + mv_x)] == S_FREE)
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + (mv_x * a))] == S_FREE)
 			LBRNT.posX += mv_x;
-		if (LBRNT.map[(int)(LBRNT.posY + mv_y)][(int)LBRNT.posX] == S_FREE)
+		if (LBRNT.map[(int)(LBRNT.posY + (mv_y * a))][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY += mv_y;
 	}
 	if (FLAGS.keydown_right == 1)
 	{
-		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - mv_y)] == S_FREE)
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX - (mv_y* a))] == S_FREE)
 			LBRNT.posX -= mv_y;
-		if (LBRNT.map[(int)(LBRNT.posY + mv_x)][(int)LBRNT.posX] == S_FREE)
+		if (LBRNT.map[(int)(LBRNT.posY + (mv_x* a))][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY += mv_x;
 	}
 	if (FLAGS.keydown_left == 1)
 	{
-		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + mv_y)] == S_FREE)
+		if (LBRNT.map[(int)LBRNT.posY][(int)(LBRNT.posX + (mv_y * a))] == S_FREE)
 			LBRNT.posX += mv_y;
-		if (LBRNT.map[(int)(LBRNT.posY - mv_x)][(int)LBRNT.posX] == S_FREE)
+		if (LBRNT.map[(int)(LBRNT.posY - (mv_x * a))][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY -= mv_x;
 	}
-	printf("Hello left right\n");
+	if (FLAGS.keydown_down || FLAGS.keydown_up
+		|| FLAGS.keydown_left || FLAGS.keydown_right)
+		printf(T_RED"%.2fx   %.2fy\n\n"R,LBRNT.posX, LBRNT.posY);
 
-//	w_raycasting(wolf);
 }
 
 void w_key_hook(t_wolf *wolf)
 {
-//	int key;
-//
-//	key = EVENT.key.keysym.sym;
-		moov_in_map(wolf);
-//		printf("Hello\n");
-
+	moov_in_map(wolf);
 	if (FLAGS.keydown_a == 1 || FLAGS.keydown_d == 1)
-	{
-		printf("Hello left right\n");
 		turn_left_right(wolf);
-	}
-
-//	if (FLAGS.keydown == 1)
-//	{
-//		printf(T_GRN"%.2f %.2f"R" - x y\n", LBRNT.posX, LBRNT.posY);
-//	}
 }
 

@@ -106,6 +106,7 @@ typedef struct			s_flags
 	int 				keydown_down;
 	int 				keydown_right;
 	int 				keydown_left;
+	int 				textur;
 }						t_flags;
 
 typedef struct			s_point
@@ -138,7 +139,7 @@ typedef struct			s_wolf
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
 	t_flags				flags;
-//	t_frame				frame;
+	t_frame				frame;
 
 	SDL_Surface 		**bmp;
 	SDL_Surface 		*bmp_b;

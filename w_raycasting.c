@@ -105,22 +105,22 @@ void print_txt(t_wolf *wolf, int drawStart, int drawEnd,
 
 
 
-			dat_bmp = wolf->bmp[0]->pixels;
+			dat_bmp = wolf->bmp[0 + FLAGS.textur]->pixels;
 
 		if ((rayDirX < 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY < 0))
 		{
 			if (side == 1)
-				dat_bmp = wolf->bmp[1]->pixels;
+				dat_bmp = wolf->bmp[1 + FLAGS.textur]->pixels;
 		}
 		if ((rayDirX < 0 && rayDirY >= 0) || (rayDirX >= 0 && rayDirY >= 0))
 		{
 			if (side == 1)
-				dat_bmp = wolf->bmp[2]->pixels;
+				dat_bmp = wolf->bmp[2 + FLAGS.textur]->pixels;
 		}
 		if ((rayDirX >= 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY >= 0))
 		{
 			if (side == 0)
-				dat_bmp = wolf->bmp[3]->pixels;
+				dat_bmp = wolf->bmp[3 + FLAGS.textur]->pixels;
 		}
 
 		Uint32 color = dat_bmp[texHeight * texY + texX];
@@ -226,27 +226,6 @@ void w_raycasting(t_wolf *wolf)
 		int drawEnd = lineHeight / 2 + HGHT / 2;
 		if(drawEnd >= HGHT)
 			drawEnd = HGHT - 1;
-//////////////////////////////////////////////////
-//		int color;
-//		color = 255;	///left
-//
-//		if ((rayDirX < 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY < 0))
-//		{
-//			if (side == 1)
-//				color = RGB_Green;	///up
-//		}
-//		if ((rayDirX < 0 && rayDirY >= 0) || (rayDirX >= 0 && rayDirY >= 0))
-//		{
-//			if (side == 1)
-//				color = RGB_Red;	///down
-//		}
-//		if ((rayDirX >= 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY >= 0))
-//		{
-//			if (side == 0)
-//				color = RGB_Yellow;	///down
-//		}
-//		print_ray(wolf, drawStart, drawEnd, color, ray);
-////////////////////////////////////////////////
 		print_txt(wolf, drawStart, drawEnd, ray, side, lineHeight,
 					perpWallDist, rayDirX, rayDirY);
 

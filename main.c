@@ -26,22 +26,20 @@ static void	init_wolf(t_wolf *wolf)
 	wolf->bmp = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 8);
 	if (!wolf->bmp)
 		w_error(ERR_MALLOC);
-	wolf->bmp[0] = SDL_LoadBMP("../img/bricks.bmp");
-	wolf->bmp[1] = SDL_LoadBMP("../img/lavaf4.bmp");
-	wolf->bmp[2] = SDL_LoadBMP("../img/leavesop.bmp");
-	wolf->bmp[3] = SDL_LoadBMP("../img/walkstone.bmp");
+	wolf->bmp[0] = SDL_LoadBMP("./img/bricks.bmp");
+	wolf->bmp[1] = SDL_LoadBMP("./img/lavaf4.bmp");
+	wolf->bmp[2] = SDL_LoadBMP("./img/leavesop.bmp");
+	wolf->bmp[3] = SDL_LoadBMP("./img/walkstone.bmp");
 
-	wolf->bmp[4] = SDL_LoadBMP("../img/bluestone.bmp");
-	wolf->bmp[5] = SDL_LoadBMP("../img/redbrick.bmp");
-	wolf->bmp[6] = SDL_LoadBMP("../img/wood.bmp");
-	wolf->bmp[7] = SDL_LoadBMP("../img/eagle.bmp");
-//	SDL_BlitSurface( wolf->bmp, NULL, SURF_WIN, NULL);
-//	SDL_BlitSurface( wolf->bmp_b, NULL, SURF_WIN, NULL );
+	wolf->bmp[4] = SDL_LoadBMP("./img/bluestone.bmp");
+	wolf->bmp[5] = SDL_LoadBMP("./img/redbrick.bmp");
+	wolf->bmp[6] = SDL_LoadBMP("./img/wood.bmp");
+	wolf->bmp[7] = SDL_LoadBMP("./img/eagle.bmp");
+
 	SDL_UpdateWindowSurface(WIN);
-
 }
 
-void w_event(t_wolf *wolf)
+static void w_event(t_wolf *wolf)
  {
 	 int running = 1;
 	 int key;

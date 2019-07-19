@@ -23,8 +23,8 @@
 # include <math.h>
 # include "libft/libft.h"
 # include "SDL2/SDL.h"
-# include "SDL2_image/SDL_image.h"
-# include "SDL2_ttf/SDL_ttf.h"
+//# include "SDL2_image/SDL_image.h"
+//# include "SDL2_ttf/SDL_ttf.h"
 
 # define WIN		wolf->sdl_data.win
 # define REN		wolf->sdl_data.ren
@@ -109,6 +109,50 @@ typedef struct			s_flags
 	int 				textur;
 }						t_flags;
 
+
+typedef struct			s_raycast
+{
+	double				posX;
+	double				posY;
+	double				dirX;
+	double				dirY;
+	double				planeX;
+	double				planeY;
+	double				cameraX;
+	double				rayDirX;
+	double				rayDirY;
+	int					mapX;
+	int					mapY;
+	double				sideDistX;
+	double				sideDistY;
+	double				deltaDistX;
+	double				deltaDistY;
+	int					stepX;
+	int					stepY;
+	int					hit;
+	int					side;
+	double				perpWallDist;
+	int					lineHeight;
+	int					drawStart;
+	int					drawEnd;
+}						t_raycast;
+
+typedef struct			s_text
+{
+	double				wallX;
+	int					*dat_bmp;
+	int					texWidth;
+	int					texHeight;
+	int					step;
+	int					*data;
+	int					y;
+	int					x;
+	int					d;
+	int					texX;
+	int					texY;
+	int color;
+}						t_text;
+
 typedef struct			s_point
 {
 	double 				x;
@@ -147,8 +191,6 @@ typedef struct			s_wolf
 
 void	w_error(int err_nb);
 void	w_valid_map(t_wolf *wolf, int fd);
-void	w_lodev(t_wolf *wolf);
-void	w_event(t_wolf *wolf);
 void	w_raycasting(t_wolf *wolf);
 void	w_key_hook(t_wolf *wolf);
 

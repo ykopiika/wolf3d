@@ -12,227 +12,160 @@
 
 #include "main.h"
 
-void print_position(t_wolf *wolf, int posX, int posY)
-{
-	int i = 0;
-
-	printf(T_YEL"\n\n%d %d - posX posY\n\n"R, posX, posY);
-	while (i < LBRNT.size)
-	{
-		int j = -1;
-		while (++j < LBRNT.size)
-		{
-			if (i == posY && j == posX)
-				printf(T_GRN"%c"R, '@');
-			else
-				printf(T_RED"%c"R, LBRNT.map[i][j]);
-		}
-		printf("\n");
-		i++;
-	}
-}
-
-void print_ray(t_wolf *wolf, int drawStart, int drawEnd, int color, int ray)
-{
-	int step = WDTH/LBRNT.rays;
-	int *data;
-	int y = -1;
-
-	data = SURF_WIN->pixels;
-	while (++y < drawStart)
-	{
-		int x = (ray * step) - 1;
-		while (++x < (ray * step) + step)
-			data[(y * WDTH) + x] = 0x96efff;
-	}
-	y = drawStart -1;
-	while (++y <= drawEnd)
-	{
-		int x = (ray * step) - 1;
-		while (++x < (ray * step) + step)
-			data[(y * WDTH) + x] = color;
-	}
-	y--;
-	while (++y < HGHT)
-	{
-		int x = (ray * step) - 1;
-		while (++x < (ray * step) + step)
-			data[(y * WDTH) + x] = 0x252626;
-	}
-}
-
 void print_txt(t_wolf *wolf, int drawStart, int drawEnd,
 				int ray, int side, int lineHeight, double perpWallDist,
 			   double rayDirX, double rayDirY)
 {
-//	int texNum = worldMap[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
-//	int texNum = 0;
+	t_text	t;
 
-	double wallX;
-	int *dat_bmp;
 
-	int texWidth = 64;
-	int texHeight = 64;
-	if (side == 0) wallX = LBRNT.posY + perpWallDist * rayDirY;
-	else           wallX = LBRNT.posX + perpWallDist * rayDirX;
-	wallX -= (int)(wallX);
+	t.texWidth = 64;
+	t.texHeight = 64;
+	if (side == 0)
+		t.wallX = LBRNT.posY + perpWallDist * rayDirY;
+	else
+		t.wallX = LBRNT.posX + perpWallDist * rayDirX;
+	t.wallX -= (int)(t.wallX);
 
-	int step = WDTH/LBRNT.rays;
-	int *data;
-	int y = -1;
+	t.step = WDTH/LBRNT.rays;
+	t.y = -1;
 
-	data = SURF_WIN->pixels;
-	while (++y < drawStart)
+	t.data = SURF_WIN->pixels;
+	while (++t.y < drawStart)
 	{
-		int x = (ray * step) - 1;
-		while (++x < (ray * step) + step)
-			data[(y * WDTH) + x] = 0x96efff;
+		t.x = (ray * t.step) - 1;
+		while (++t.x < (ray * t.step) + t.step)
+			t.data[(t.y * WDTH) + t.x] = 0x96efff;
 	}
 
 
-	int texX = (int)(wallX * (double)(texWidth));
+	t.texX = (int)(t.wallX * (double)(t.texWidth));
 
 	if(side == 0 && rayDirX > 0)
-		texX = texWidth - texX - 1;
+		t.texX = t.texWidth - t.texX - 1;
 	if(side == 1 && rayDirY < 0)
-		texX = texWidth - texX - 1;
-	y = drawStart;
-	while (y < drawEnd)
-	{
-		int d = y * 256 - HGHT * 128 + lineHeight * 128;
-		int texY = ((d * texHeight) / lineHeight) / 256;
-//			int color = texture[texNum][texHeight * texY + texX];
-
-
-
-			dat_bmp = wolf->bmp[0 + FLAGS.textur]->pixels;
+		t.texX = t.texWidth - t.texX - 1;
+		t.dat_bmp = wolf->bmp[0 + FLAGS.textur]->pixels;
 
 		if ((rayDirX < 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY < 0))
 		{
 			if (side == 1)
-				dat_bmp = wolf->bmp[1 + FLAGS.textur]->pixels;
+				t.dat_bmp = wolf->bmp[1 + FLAGS.textur]->pixels;
 		}
 		if ((rayDirX < 0 && rayDirY >= 0) || (rayDirX >= 0 && rayDirY >= 0))
 		{
 			if (side == 1)
-				dat_bmp = wolf->bmp[2 + FLAGS.textur]->pixels;
+				t.dat_bmp = wolf->bmp[2 + FLAGS.textur]->pixels;
 		}
 		if ((rayDirX >= 0 && rayDirY < 0) || (rayDirX >= 0 && rayDirY >= 0))
 		{
 			if (side == 0)
-				dat_bmp = wolf->bmp[3 + FLAGS.textur]->pixels;
+				t.dat_bmp = wolf->bmp[3 + FLAGS.textur]->pixels;
 		}
-
-		Uint32 color = dat_bmp[texHeight * texY + texX];
-
-		if(side == 1) color = (color >> 1) & 8355711;
-		data[y * WDTH + ray] = color;
-		y++;
-	}
-	y--;
-	while (++y < HGHT)
+	t.y = drawStart;
+	while (t.y < drawEnd)
 	{
-		int x = (ray * step) - 1;
-		while (++x < (ray * step) + step)
-			data[(y * WDTH) + x] = 0x252626;
+		t.d = t.y * 256 - HGHT * 128 + lineHeight * 128;
+		t.texY = ((t.d * t.texHeight) / lineHeight) / 256;
+
+
+
+		t.color = t.dat_bmp[t.texHeight * t.texY + t.texX];
+		t.data[t.y * WDTH + ray] = t.color;
+		t.y++;
+	}
+	t.y--;
+	while (++t.y < HGHT)
+	{
+		t.x = (ray * t.step) - 1;
+		while (++t.x < (ray * t.step) + t.step)
+			t.data[(t.y * WDTH) + t.x] = 0x252626;
 	}
 }
 
 void w_raycasting(t_wolf *wolf)
 {
-//	print_img_data(wolf);
 	int ray = 0;
+	t_raycast v;
 
-	double posX = LBRNT.posX;
-	double posY = LBRNT.posY;
-//	print_position(wolf, posX, posY);
-	double dirX = LBRNT.dirX;
-	double dirY = LBRNT.dirY;
-	double planeX = LBRNT.planeX;
-	double planeY = LBRNT.planeY;
+	v.posX = LBRNT.posX;
+	v.posY = LBRNT.posY;
+	v.dirX = LBRNT.dirX;
+	v.dirY = LBRNT.dirY;
+	v.planeX = LBRNT.planeX;
+	v.planeY = LBRNT.planeY;
 
-//	printf("pos: %f, %f\n", LBRNT.posX, LBRNT.posY);
 	while (ray < LBRNT.rays)
 	{
-		double cameraX = 1 - (2.0 * (double)ray / LBRNT.rays);
-		double rayDirX = dirX + planeX * cameraX;
-		double rayDirY = dirY + planeY * cameraX;
+		v.cameraX = 1 - (2.0 * (double)ray / LBRNT.rays);
+		v.rayDirX = v.dirX + v.planeX * v.cameraX;
+		v.rayDirY = v.dirY + v.planeY * v.cameraX;
 
-//		printf("ray %d dir = %f,%f; cam = %f\n", ray, rayDirX, rayDirY, cameraX);
+		v.mapX = v.posX;
+		v.mapY = v.posY;
 
-		int mapX = posX;
-		int mapY = posY;
 
-		double sideDistX;
-		double sideDistY;
+		v.deltaDistX = fabs(1 / v.rayDirX);
+		v.deltaDistY = fabs(1 / v.rayDirY);
 
-		double deltaDistX = fabs(1 / rayDirX);
-		double deltaDistY = fabs(1 / rayDirY);
-
-		int stepX;
-		int stepY;
-		if (rayDirX < 0)
+		if (v.rayDirX < 0)
 		{
-			stepX = -1;
-			sideDistX = (posX - mapX) * deltaDistX;
+			v.stepX = -1;
+			v.sideDistX = (v.posX - v.mapX) * v.deltaDistX;
 		}
 		else
 		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+			v.stepX = 1;
+			v.sideDistX = (v.mapX + 1.0 - v.posX) * v.deltaDistX;
 		}
 
-		if (rayDirY < 0)
+		if (v.rayDirY < 0)
 		{
-			stepY = -1;
-			sideDistY = (posY - mapY) * deltaDistY;
+			v.stepY = -1;
+			v.sideDistY = (v.posY - v.mapY) * v.deltaDistY;
 		}
 		else
 		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+			v.stepY = 1;
+			v.sideDistY = (v.mapY + 1.0 - v.posY) * v.deltaDistY;
 		}
-		int hit = 0; //was there a wall hit?
-		int side; //was a NS or a EW wall hit?
-		while (hit == 0)
+
+		v.hit = 0;
+		while (v.hit == 0)
 		{
-			//jump to next map square, OR in x-direction, OR in y-direction
-			if (sideDistX < sideDistY)
+			if (v.sideDistX < v.sideDistY)
 			{
-				sideDistX += deltaDistX;
-				mapX += stepX;
-				side = 0;
+				v.sideDistX += v.deltaDistX;
+				v.mapX += v.stepX;
+				v.side = 0;
 			}
 			else
 			{
-				sideDistY += deltaDistY;
-				mapY += stepY;
-				side = 1;
+				v.sideDistY += v.deltaDistY;
+				v.mapY += v.stepY;
+				v.side = 1;
 			}
-			if (LBRNT.map[mapY][mapX] == S_WALL) hit = 1;
+			if (LBRNT.map[v.mapY][v.mapX] == S_WALL)
+				v.hit = 1;
 		}
 
-		double perpWallDist;
-		if (side == 0)
-			perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
+		if (!v.side)
+			v.perpWallDist = (v.mapX - v.posX + (1 - v.stepX) / 2) / v.rayDirX;
 		else
-			perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+			v.perpWallDist = (v.mapY - v.posY + (1 - v.stepY) / 2) / v.rayDirY;
 
-		int lineHeight = (int)(HGHT / perpWallDist);
+		v.lineHeight = (int)(HGHT / v.perpWallDist);
+		v.drawStart = -v.lineHeight / 2 + HGHT / 2;
 
-		int drawStart = -lineHeight / 2 + HGHT / 2;
-		if(drawStart < 0)
-			drawStart = 0;
-		int drawEnd = lineHeight / 2 + HGHT / 2;
-		if(drawEnd >= HGHT)
-			drawEnd = HGHT - 1;
-		print_txt(wolf, drawStart, drawEnd, ray, side, lineHeight,
-					perpWallDist, rayDirX, rayDirY);
-
-
+		if(v.drawStart < 0)
+			v.drawStart = 0;
+		v.drawEnd = v.lineHeight / 2 + HGHT / 2;
+		if(v.drawEnd >= HGHT)
+			v.drawEnd = HGHT - 1;
+		print_txt(wolf, v.drawStart, v.drawEnd, ray, v.side, v.lineHeight,
+				  v.perpWallDist, v.rayDirX, v.rayDirY);
 		ray++;
 	}
-//	printf("%d / %d - rays/LB ray\n",);
 	SDL_UpdateWindowSurface(WIN);
 
 	return ;

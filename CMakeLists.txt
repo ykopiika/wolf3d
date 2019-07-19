@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.12.1)
 project(wolf3d C)
 
 find_library(libsdl SDL2)
-find_library(libsdl_img SDL2_image)
-find_library(libsdl_ttf SDL2_ttf)
-find_library(libsdl_mixer SDL2_mixer)
+#find_library(libsdl_img SDL2_image)
+#find_library(libsdl_ttf SDL2_ttf)
+#find_library(libsdl_mixer SDL2_mixer)
 
 set(CMAKE_C_STANDARD 99)
 
@@ -28,7 +28,9 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}" )
 set(dir ${CMAKE_CURRENT_SOURCE_DIR})
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${dir}/bin")
 target_link_libraries(${PROJECT_NAME} ${LFT_NAME}
-        ${libsdl} ${libsdl_img} ${libsdl_ttf} ${libsdl_mixer})
+        ${libsdl}
+#        ${libsdl_img} ${libsdl_ttf} ${libsdl_mixer}
+        )
 
 #set(GCC_COVERAGE_COMPILE_FLAGS "-fsanitize=\"address\" -g -fno-omit-frame-pointer")
 #-Weverything

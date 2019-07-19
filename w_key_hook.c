@@ -71,9 +71,9 @@ static void moov_in_map(t_wolf *wolf)
 		if (LBRNT.map[(int)(LBRNT.posY - (mv_x * a))][(int)LBRNT.posX] == S_FREE)
 			LBRNT.posY -= mv_x;
 	}
-	if (FLAGS.keydown_down || FLAGS.keydown_up
-		|| FLAGS.keydown_left || FLAGS.keydown_right)
-		printf(T_RED"%.2fx   %.2fy\n\n"R,LBRNT.posX, LBRNT.posY);
+//	if (FLAGS.keydown_down || FLAGS.keydown_up
+//		|| FLAGS.keydown_left || FLAGS.keydown_right)
+//		printf(T_RED"%.2fx   %.2fy\n\n"R,LBRNT.posX, LBRNT.posY);
 
 }
 

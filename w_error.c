@@ -28,7 +28,8 @@ void	w_error(int err_nb)
 	}
 	else if (err_nb == ERR_SDL)
 	{
-		ft_putendl("Get pointer from SDL_function failed");
+		ft_putendl("SDL_function failed:");
+		ft_putendl(SDL_GetError());
 		exit(err_nb);
 	}
 	else if (err_nb == ERR_ARGV)

@@ -23,7 +23,7 @@
 # include <math.h>
 # include "libft/libft.h"
 # include "SDL2/SDL.h"
-//# include "SDL2_image/SDL_image.h"
+# include "SDL2_image/SDL_image.h"
 //# include "SDL2_ttf/SDL_ttf.h"
 
 # define WIN		wolf->sdl_data.win
@@ -40,11 +40,8 @@
 # define S_WALL		wolf->smbl.wall
 # define S_FREE		wolf->smbl.free
 
-# define RGB_Red		0xff00b7
-# define RGB_Green		0x6cd100
-# define RGB_Blue		0x0081d1
-# define RGB_White		0xffffff
-# define RGB_Yellow		0xffd000
+# define SKY_COLOR		0x96efff
+# define FLOOR_COLOR	0x252626
 
 # define ERR_USAGE			0
 # define ERR_MALLOC			1
@@ -65,7 +62,6 @@ typedef struct			s_labyrinth
 	int 				size;
 	char 				**map;
 	int 				rays;
-	int 				turn;
 
 	double 				posX;
 	double 				posY;
@@ -107,11 +103,21 @@ typedef struct			s_flags
 	int 				keydown_right;
 	int 				keydown_left;
 	int 				textur;
+	int 				speed;
 }						t_flags;
 
 
 typedef struct			s_raycast
 {
+	int					stepX;
+	int					stepY;
+	int					side;
+	int					ray;
+	int					mapX;
+	int					mapY;
+	int					lineHeight;
+	int					drawStart;
+	int					drawEnd;
 	double				posX;
 	double				posY;
 	double				dirX;
@@ -121,20 +127,11 @@ typedef struct			s_raycast
 	double				cameraX;
 	double				rayDirX;
 	double				rayDirY;
-	int					mapX;
-	int					mapY;
 	double				sideDistX;
 	double				sideDistY;
 	double				deltaDistX;
 	double				deltaDistY;
-	int					stepX;
-	int					stepY;
-	int					hit;
-	int					side;
 	double				perpWallDist;
-	int					lineHeight;
-	int					drawStart;
-	int					drawEnd;
 }						t_raycast;
 
 typedef struct			s_text
@@ -143,7 +140,6 @@ typedef struct			s_text
 	int					*dat_bmp;
 	int					texWidth;
 	int					texHeight;
-	int					step;
 	int					*data;
 	int					y;
 	int					x;

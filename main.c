@@ -14,6 +14,9 @@
 
 static void	init_wolf(t_wolf *wolf)
 {
+	int i;
+
+	i = -1;
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		w_error(ERR_SDL);
 	WIN = SDL_CreateWindow("Hello SDL World",
@@ -23,20 +26,26 @@ static void	init_wolf(t_wolf *wolf)
 		w_error(ERR_SDL);
 
 	SURF_WIN = SDL_GetWindowSurface(WIN);
+	if (!SURF_WIN)
+		w_error(ERR_SDL);
 	wolf->bmp = (SDL_Surface **)malloc(sizeof(SDL_Surface *) * 8);
 	if (!wolf->bmp)
 		w_error(ERR_MALLOC);
-	wolf->bmp[0] = SDL_LoadBMP("./img/bricks.bmp");
-	wolf->bmp[1] = SDL_LoadBMP("./img/lavaf4.bmp");
-	wolf->bmp[2] = SDL_LoadBMP("./img/leavesop.bmp");
-	wolf->bmp[3] = SDL_LoadBMP("./img/walkstone.bmp");
+	wolf->bmp[0] = IMG_Load("./img/bricks.bmp");
+	wolf->bmp[1] = IMG_Load("./img/lavaf4.bmp");
+	wolf->bmp[2] = IMG_Load("./img/leavesop.bmp");
+	wolf->bmp[3] = IMG_Load("./img/walkstone.bmp");
+	wolf->bmp[4] = IMG_Load("./img/bluestone.bmp");
+	wolf->bmp[5] = IMG_Load("./img/redbrick.bmp");
+	wolf->bmp[6] = IMG_Load("./img/wood.bmp");
+	wolf->bmp[7] = IMG_Load("./img/eagle.bmp");
+	SDL_SetColorKey(SURF_WIN, SDL_TRUE, SDL_MapRGB(SURF_WIN->format,0,0,0));
 
-	wolf->bmp[4] = SDL_LoadBMP("./img/bluestone.bmp");
-	wolf->bmp[5] = SDL_LoadBMP("./img/redbrick.bmp");
-	wolf->bmp[6] = SDL_LoadBMP("./img/wood.bmp");
-	wolf->bmp[7] = SDL_LoadBMP("./img/eagle.bmp");
-
-	SDL_UpdateWindowSurface(WIN);
+	while (++i < 8)
+	{
+		if (!(wolf->bmp[i]))
+			w_error(ERR_SDL);
+	}
 }
 
 static void w_event(t_wolf *wolf)
@@ -88,6 +97,11 @@ static void w_event(t_wolf *wolf)
 			 if (EVENT.type == SDL_KEYUP && key == SDLK_RIGHT)
 				 FLAGS.keydown_right = 0;
 
+			 if (EVENT.type == SDL_KEYDOWN && key == SDLK_LSHIFT)
+				 FLAGS.speed = 2;
+			 if (EVENT.type == SDL_KEYUP && key == SDLK_LSHIFT)
+				 FLAGS.speed = 1;
+
 			 if (EVENT.type == SDL_KEYDOWN && key == SDLK_t)
 				 FLAGS.textur = (FLAGS.textur == 0) ? 4 : 0;
 
@@ -108,12 +122,13 @@ static void w_event(t_wolf *wolf)
 	 S_PLYR = '+';
 	 FLAGS.free_sp = 0;
 	 FLAGS.player = 0;
-	 LBRNT.rays = 1200;
-	 LBRNT.turn = 0;
+	 LBRNT.rays = WDTH;
 	 FLAGS.textur = 0;
+	 FLAGS.speed = 1;
 
-	 LBRNT.posX = 12.5;
+	 LBRNT.posX = 16.5;
 	 LBRNT.posY = 12.5;
+
 	 LBRNT.dirX = -1;
 	 LBRNT.dirY = 0;
 	 LBRNT.planeX = 0;

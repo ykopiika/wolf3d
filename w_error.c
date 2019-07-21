@@ -14,7 +14,7 @@
 
 void	w_error(int err_nb)
 {
-	system ("leaks -q wolf3d");
+	system ("leaks -q wolf3d");//
 	printf(T_RED);
 	if (err_nb == ERR_USAGE)
 	{

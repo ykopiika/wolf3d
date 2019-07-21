@@ -24,10 +24,10 @@
 # include "libft/libft.h"
 # include "SDL2/SDL.h"
 # include "SDL2_image/SDL_image.h"
-//# include "SDL2_ttf/SDL_ttf.h"
+# include "SDL2_mixer/SDL_mixer.h"
+# include "SDL2_ttf/SDL_ttf.h"
 
 # define WIN		wolf->sdl_data.win
-# define REN		wolf->sdl_data.ren
 # define EVENT		wolf->sdl_data.event
 # define SURF_WIN	wolf->sdl_data.surf_win
 # define READ		wolf->read
@@ -76,8 +76,6 @@ typedef struct			s_sdl_ptr
 {
 	SDL_Window 			*win;
 	SDL_Surface 		*surf_win;
-
-	SDL_Renderer 		*ren;
 	SDL_Event 			event;
 }						t_sdl_ptr;
 
@@ -95,6 +93,7 @@ typedef struct			s_flags
 {
 	int 				free_sp;
 	int 				player;
+	double 				zoom;
 
 	int 				keydown_a;
 	int 				keydown_d;
@@ -105,7 +104,6 @@ typedef struct			s_flags
 	int 				textur;
 	int 				speed;
 }						t_flags;
-
 
 typedef struct			s_raycast
 {
@@ -141,12 +139,11 @@ typedef struct			s_text
 	int					texWidth;
 	int					texHeight;
 	int					*data;
-	int					y;
-	int					x;
-	int					d;
-	int					texX;
-	int					texY;
-	int color;
+//	int					y;
+	int					c;
+	int					x_text;
+	int					y_text;
+	int 				color_text;
 }						t_text;
 
 typedef struct			s_point
@@ -164,11 +161,12 @@ typedef struct			s_symb_lab
 
 typedef struct			s_frame
 {
-	double				time;
-	double				oldTime;
-	double				frameTime;
-	double				moveSpeed;
-	double				rotSpeed;
+	double				time_new;
+	double				time_old;
+	double				frm_time;
+	double				spd_mv;
+	double				spd_rotat;
+	double				fps;
 }						t_frame;
 
 typedef struct			s_wolf
@@ -182,12 +180,14 @@ typedef struct			s_wolf
 	t_frame				frame;
 
 	SDL_Surface 		**bmp;
-	SDL_Surface 		*bmp_b;
 }						t_wolf;
 
 void	w_error(int err_nb);
 void	w_valid_map(t_wolf *wolf, int fd);
 void	w_raycasting(t_wolf *wolf);
-void	w_key_hook(t_wolf *wolf);
+void	w_moov_in_map(t_wolf *wolf);
+void 	w_turn_left_right(t_wolf *wolf);
+void	w_event(t_wolf *wolf);
+void	w_print_wall(t_wolf *wolf, t_raycast *v, int ray);
 
 #endif

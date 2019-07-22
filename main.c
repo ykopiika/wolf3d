@@ -36,7 +36,7 @@ static void	init_wolf(t_wolf *wolf)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		w_error(ERR_SDL, wolf->fd);
-	WIN = SDL_CreateWindow("Hello SDL World",
+	WIN = SDL_CreateWindow("Wolf3d",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			WDTH, HGHT, SDL_WINDOW_ALLOW_HIGHDPI);
 	if (!WIN)

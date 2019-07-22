@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-static void set_flags(t_wolf *wolf, int key)
+static void	set_flags(t_wolf *wolf, int key)
 {
 	int flag;
 
@@ -39,39 +39,41 @@ static void set_flags(t_wolf *wolf, int key)
 		FLAGS.textur = (FLAGS.textur == 0) ? 4 : 0;
 }
 
-static void frame_count(t_wolf *wolf)
+static void	frame_count(t_wolf *wolf)
 {
 	FRAME.time_old = FRAME.time_new;
 	FRAME.time_new = SDL_GetTicks();
 	FRAME.frm_time = (FRAME.time_new - FRAME.time_old) / 1000.0;
 	FRAME.spd_mv = FRAME.frm_time * 5.0;
 	FRAME.spd_rotat = FRAME.frm_time * 3.0;
-//	FRAME.fps = 1.0 / FRAME.frm_time;
-//	printf("%f\n",FRAME.fps);
-//SDL_SetTextInputRect()
 }
 
-static void finish(t_wolf *wolf)
+static void	finish(t_wolf *wolf)
 {
+	int i;
 
-	SDL_DestroyWindow(WIN);//
-	SDL_Quit();//
-	system ("leaks -q wolf3d");//
+	i = -1;
+	while (++i < 8)
+		SDL_FreeSurface(BMP[i]);
+	SDL_FreeSurface(SURF_WIN);
+	SDL_DestroyWindow(WIN);
+	SDL_Quit();
 }
 
-void w_event(t_wolf *wolf)
+void		w_event(t_wolf *wolf)
 {
-	int game_on = 1;
+	int game_on;
 	int key;
 
+	game_on = 1;
 	while (game_on)
 	{
 		frame_count(wolf);
-		while(SDL_PollEvent(&EVENT))//
+		while (SDL_PollEvent(&EVENT))
 		{
 			key = EVENT.key.keysym.sym;
-			if(EVENT.type == SDL_QUIT
-			   || (EVENT.type == SDL_KEYDOWN && key == SDLK_ESCAPE))
+			if (EVENT.type == SDL_QUIT
+			|| (EVENT.type == SDL_KEYDOWN && key == SDLK_ESCAPE))
 				game_on = 0;
 			if (EVENT.type == SDL_KEYDOWN || EVENT.type == SDL_KEYUP)
 				set_flags(wolf, key);

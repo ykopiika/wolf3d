@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-static void count_side_dist(t_raycast *v)
+static void	count_side_dist(t_raycast *v)
 {
 	v->x_mp = (int)v->ply_pstn_x;
 	v->y_mp = (int)v->ply_pstn_y;
@@ -38,9 +38,11 @@ static void count_side_dist(t_raycast *v)
 	}
 }
 
-static void count_len_ray(t_wolf *wolf, t_raycast *v)
+static void	count_len_ray(t_wolf *wolf, t_raycast *v)
 {
-	int hit = 0;
+	int hit;
+
+	hit = 0;
 	while (hit == 0)
 	{
 		if (v->strt_dlt_x < v->strt_dlt_y)
@@ -60,25 +62,24 @@ static void count_len_ray(t_wolf *wolf, t_raycast *v)
 	}
 }
 
-static void count_hight_wall(t_raycast *v)
+static void	count_hight_wall(t_raycast *v)
 {
 	if (!v->wall_side)
 		v->distnc_wall =
-			(v->x_mp - v->ply_pstn_x + (1.0f - v->x_stage) / 2)	/ v->ray_x_drct;
+			(v->x_mp - v->ply_pstn_x + (1.0f - v->x_stage) / 2) / v->ray_x_drct;
 	else
 		v->distnc_wall =
-			(v->y_mp - v->ply_pstn_y + (1.0f - v->y_stage) / 2)	/ v->ray_y_drct;
+			(v->y_mp - v->ply_pstn_y + (1.0f - v->y_stage) / 2) / v->ray_y_drct;
 	v->hght_wall = (int)(HGHT / v->distnc_wall);
-	v->y_strt = (-v->hght_wall >> 1u) + (HGHT >> 1u);
-
-	if(v->y_strt < 0)
+	v->y_strt = (-v->hght_wall >> 1u) + (HALF_HGHT);
+	if (v->y_strt < 0)
 		v->y_strt = 0;
-	v->y_fnsh = (v->hght_wall >> 1u) + (HGHT >> 1u);
-	if(v->y_fnsh >= HGHT)
+	v->y_fnsh = (v->hght_wall >> 1u) + (HALF_HGHT);
+	if (v->y_fnsh >= HGHT)
 		v->y_fnsh = HGHT - 1;
 }
 
-void w_raycasting(t_wolf *wolf)
+void		w_raycasting(t_wolf *wolf)
 {
 	t_raycast v;
 
@@ -96,12 +97,12 @@ void w_raycasting(t_wolf *wolf)
 		v.ray_y_drct = v.ply_drct_y * FLAGS.zoom + v.prjct_y * v.scrn_x;
 		v.dlt_x = fabs(1 / v.ray_x_drct);
 		v.dlt_y = fabs(1 / v.ray_y_drct);
-
 		count_side_dist(&v);
 		count_len_ray(wolf, &v);
 		count_hight_wall(&v);
 		w_print_wall(wolf, &v, v.ray);
 		v.ray++;
 	}
-	SDL_UpdateWindowSurface(WIN);//
+	if (SDL_UpdateWindowSurface(WIN) != 0)
+		w_error(ERR_SDL, -42);
 }

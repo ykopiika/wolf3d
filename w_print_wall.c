@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-static void print_textured_line(t_text	t, int ray, t_raycast *v)
+static void	print_textured_line(t_text t, int ray, t_raycast *v)
 {
 	int y;
 
@@ -33,10 +33,9 @@ static void print_textured_line(t_text	t, int ray, t_raycast *v)
 		t.data[(y * WDTH) + ray] = FLOOR_COLOR;
 }
 
-static void choose_right_texture(t_text	*t, t_wolf *wolf, t_raycast *v)
+static void	choose_right_texture(t_text *t, t_wolf *wolf, t_raycast *v)
 {
 	t->dat_bmp = BMP[0 + FLAGS.textur]->pixels;
-
 	if ((v->ray_x_drct < 0 && v->ray_y_drct < 0)
 		|| (v->ray_x_drct >= 0 && v->ray_y_drct < 0))
 	{
@@ -57,7 +56,7 @@ static void choose_right_texture(t_text	*t, t_wolf *wolf, t_raycast *v)
 	}
 }
 
-void w_print_wall(t_wolf *wolf, t_raycast *v, int ray)
+void		w_print_wall(t_wolf *wolf, t_raycast *v, int ray)
 {
 	t_text	t;
 
@@ -69,12 +68,10 @@ void w_print_wall(t_wolf *wolf, t_raycast *v, int ray)
 		t.x_on_block = LBRNT.ply_pstn_x + v->distnc_wall * v->ray_x_drct;
 	t.x_on_block -= (int)(t.x_on_block);
 	t.data = SURF_WIN->pixels;
-
 	t.x_text = (int)(t.x_on_block * (double)t.text_wdth);
-
-	if(v->wall_side == 0 && v->ray_x_drct > 0)
+	if (v->wall_side == 0 && v->ray_x_drct > 0)
 		t.x_text = t.text_wdth - t.x_text - 1;
-	if(v->wall_side == 1 && v->ray_y_drct < 0)
+	if (v->wall_side == 1 && v->ray_y_drct < 0)
 		t.x_text = t.text_wdth - t.x_text - 1;
 	choose_right_texture(&t, wolf, v);
 	print_textured_line(t, ray, v);

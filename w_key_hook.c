@@ -12,7 +12,7 @@
 
 #include "main.h"
 
-void w_turn_left_right(t_wolf *wolf)
+void		w_turn_left_right(t_wolf *wolf)
 {
 	t_point	right;
 	t_point	left;
@@ -23,9 +23,9 @@ void w_turn_left_right(t_wolf *wolf)
 	if (FLAGS.keydown_left || FLAGS.keydown_right)
 	{
 		left = (t_point)
-				{.y = cos(FRAME.spd_rotat), .x =  sin(FRAME.spd_rotat)};
+				{.y = cos(FRAME.spd_rotat), .x = sin(FRAME.spd_rotat)};
 		right = (t_point)
-				{.y = cos(-FRAME.spd_rotat), .x =  sin(-FRAME.spd_rotat)};
+				{.y = cos(-FRAME.spd_rotat), .x = sin(-FRAME.spd_rotat)};
 		if (FLAGS.keydown_right == 1)
 			alpha = left;
 		if (FLAGS.keydown_left == 1)
@@ -39,7 +39,7 @@ void w_turn_left_right(t_wolf *wolf)
 	}
 }
 
-static void step_right_left(t_wolf *wolf, double mv_x, double mv_y, double a)
+static void	step_right_left(t_wolf *wolf, double mv_x, double mv_y, double a)
 {
 	if (FLAGS.keydown_d == 1)
 	{
@@ -61,31 +61,39 @@ static void step_right_left(t_wolf *wolf, double mv_x, double mv_y, double a)
 	}
 }
 
-void w_moov_in_map(t_wolf *wolf)
+static void	step_up_down(t_wolf *wolf, double mv_x, double mv_y, double a)
 {
-	double mv_x = FRAME.spd_mv * LBRNT.ply_drct_x * FLAGS.speed;
-	double mv_y = FRAME.spd_mv * LBRNT.ply_drct_y * FLAGS.speed;
-	double a = 1.5;
-
 	if (FLAGS.keydown_down == 1)
 	{
 		if (LBRNT.map[(int)LBRNT.ply_pstn_y]
-		[(int)(LBRNT.ply_pstn_x - (mv_x * a))] != S_WALL)
+			[(int)(LBRNT.ply_pstn_x - (mv_x * a))] != S_WALL)
 			LBRNT.ply_pstn_x -= mv_x;
 		if (LBRNT.map[(int)(LBRNT.ply_pstn_y - (mv_y * a))]
-		[(int)LBRNT.ply_pstn_x] != S_WALL)
+			[(int)LBRNT.ply_pstn_x] != S_WALL)
 			LBRNT.ply_pstn_y -= mv_y;
 	}
 	if (FLAGS.keydown_up == 1)
 	{
 		if (LBRNT.map[(int)LBRNT.ply_pstn_y]
-		[(int)(LBRNT.ply_pstn_x + (mv_x * a))] != S_WALL)
+			[(int)(LBRNT.ply_pstn_x + (mv_x * a))] != S_WALL)
 			LBRNT.ply_pstn_x += mv_x;
 		if (LBRNT.map[(int)(LBRNT.ply_pstn_y + (mv_y * a))]
-		[(int)LBRNT.ply_pstn_x] != S_WALL)
+			[(int)LBRNT.ply_pstn_x] != S_WALL)
 			LBRNT.ply_pstn_y += mv_y;
 	}
+}
+
+void		w_moov_in_map(t_wolf *wolf)
+{
+	double mv_x;
+	double mv_y;
+	double a;
+
+	a = 3;
+	mv_y = FRAME.spd_mv * LBRNT.ply_drct_y * FLAGS.speed;
+	mv_x = FRAME.spd_mv * LBRNT.ply_drct_x * FLAGS.speed;
+	if (FLAGS.keydown_down == 1 || FLAGS.keydown_up == 1)
+		step_up_down(wolf, mv_x, mv_y, a);
 	if (FLAGS.keydown_a == 1 || FLAGS.keydown_d == 1)
 		step_right_left(wolf, mv_x, mv_y, a);
 }
-

@@ -12,31 +12,29 @@
 
 #include "main.h"
 
-
-
 static void count_side_dist(t_raycast *v)
 {
-	v->mapX = (int)v->posX;
-	v->mapY = (int)v->posY;
-	if (v->rayDirX < 0)
+	v->x_mp = (int)v->ply_pstn_x;
+	v->y_mp = (int)v->ply_pstn_y;
+	if (v->ray_x_drct < 0)
 	{
-		v->stepX = -1;
-		v->sideDistX = (v->posX - v->mapX) * v->deltaDistX;
+		v->x_stage = -1;
+		v->strt_dlt_x = (v->ply_pstn_x - v->x_mp) * v->dlt_x;
 	}
 	else
 	{
-		v->stepX = 1;
-		v->sideDistX = (v->mapX + 1.0 - v->posX) * v->deltaDistX;
+		v->x_stage = 1;
+		v->strt_dlt_x = (v->x_mp + 1.0 - v->ply_pstn_x) * v->dlt_x;
 	}
-	if (v->rayDirY < 0)
+	if (v->ray_y_drct < 0)
 	{
-		v->stepY = -1;
-		v->sideDistY = (v->posY - v->mapY) * v->deltaDistY;
+		v->y_stage = -1;
+		v->strt_dlt_y = (v->ply_pstn_y - v->y_mp) * v->dlt_y;
 	}
 	else
 	{
-		v->stepY = 1;
-		v->sideDistY = (v->mapY + 1.0 - v->posY) * v->deltaDistY;
+		v->y_stage = 1;
+		v->strt_dlt_y = (v->y_mp + 1.0 - v->ply_pstn_y) * v->dlt_y;
 	}
 }
 
@@ -45,39 +43,39 @@ static void count_len_ray(t_wolf *wolf, t_raycast *v)
 	int hit = 0;
 	while (hit == 0)
 	{
-		if (v->sideDistX < v->sideDistY)
+		if (v->strt_dlt_x < v->strt_dlt_y)
 		{
-			v->sideDistX += v->deltaDistX;
-			v->mapX += v->stepX;
-			v->side = 0;
+			v->strt_dlt_x += v->dlt_x;
+			v->x_mp += v->x_stage;
+			v->wall_side = 0;
 		}
 		else
 		{
-			v->sideDistY += v->deltaDistY;
-			v->mapY += v->stepY;
-			v->side = 1;
+			v->strt_dlt_y += v->dlt_y;
+			v->y_mp += v->y_stage;
+			v->wall_side = 1;
 		}
-		if (LBRNT.map[v->mapY][v->mapX] == S_WALL)
+		if (LBRNT.map[v->y_mp][v->x_mp] == S_WALL)
 			hit = 1;
 	}
 }
 
 static void count_hight_wall(t_raycast *v)
 {
-	if (!v->side)
-		v->perpWallDist =
-			(v->mapX - v->posX + (1.0f - v->stepX) / 2)	/ v->rayDirX;
+	if (!v->wall_side)
+		v->distnc_wall =
+			(v->x_mp - v->ply_pstn_x + (1.0f - v->x_stage) / 2)	/ v->ray_x_drct;
 	else
-		v->perpWallDist =
-			(v->mapY - v->posY + (1.0f - v->stepY) / 2)	/ v->rayDirY;
-	v->lineHeight = (int)(HGHT / v->perpWallDist);
-	v->drawStart = (-v->lineHeight >> 1u) + (HGHT >> 1u);
+		v->distnc_wall =
+			(v->y_mp - v->ply_pstn_y + (1.0f - v->y_stage) / 2)	/ v->ray_y_drct;
+	v->hght_wall = (int)(HGHT / v->distnc_wall);
+	v->y_strt = (-v->hght_wall >> 1u) + (HGHT >> 1u);
 
-	if(v->drawStart < 0)
-		v->drawStart = 0;
-	v->drawEnd = (v->lineHeight >> 1u) + (HGHT >> 1u);
-	if(v->drawEnd >= HGHT)
-		v->drawEnd = HGHT - 1;
+	if(v->y_strt < 0)
+		v->y_strt = 0;
+	v->y_fnsh = (v->hght_wall >> 1u) + (HGHT >> 1u);
+	if(v->y_fnsh >= HGHT)
+		v->y_fnsh = HGHT - 1;
 }
 
 void w_raycasting(t_wolf *wolf)
@@ -85,19 +83,19 @@ void w_raycasting(t_wolf *wolf)
 	t_raycast v;
 
 	v.ray = 0;
-	v.posX = LBRNT.posX;
-	v.posY = LBRNT.posY;
-	v.dirX = LBRNT.dirX;
-	v.dirY = LBRNT.dirY;
-	v.planeX = LBRNT.planeX;
-	v.planeY = LBRNT.planeY;
+	v.ply_pstn_x = LBRNT.ply_pstn_x;
+	v.ply_pstn_y = LBRNT.ply_pstn_y;
+	v.ply_drct_x = LBRNT.ply_drct_x;
+	v.ply_drct_y = LBRNT.ply_drct_y;
+	v.prjct_x = LBRNT.prjct_x;
+	v.prjct_y = LBRNT.prjct_y;
 	while (v.ray < LBRNT.rays)
 	{
-		v.cameraX = 1 - (2.0 * (double)v.ray / LBRNT.rays);
-		v.rayDirX = v.dirX * FLAGS.zoom + v.planeX * v.cameraX;
-		v.rayDirY = v.dirY * FLAGS.zoom + v.planeY * v.cameraX;
-		v.deltaDistX = fabs(1 / v.rayDirX);
-		v.deltaDistY = fabs(1 / v.rayDirY);
+		v.scrn_x = 1 - (2.0 * (double)v.ray / LBRNT.rays);
+		v.ray_x_drct = v.ply_drct_x * FLAGS.zoom + v.prjct_x * v.scrn_x;
+		v.ray_y_drct = v.ply_drct_y * FLAGS.zoom + v.prjct_y * v.scrn_x;
+		v.dlt_x = fabs(1 / v.ray_x_drct);
+		v.dlt_y = fabs(1 / v.ray_y_drct);
 
 		count_side_dist(&v);
 		count_len_ray(wolf, &v);
@@ -105,5 +103,5 @@ void w_raycasting(t_wolf *wolf)
 		w_print_wall(wolf, &v, v.ray);
 		v.ray++;
 	}
-	SDL_UpdateWindowSurface(WIN);
+	SDL_UpdateWindowSurface(WIN);//
 }

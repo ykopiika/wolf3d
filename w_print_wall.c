@@ -17,14 +17,14 @@ static void print_textured_line(t_text	t, int ray, t_raycast *v)
 	int y;
 
 	y = -1;
-	while (++y < v->drawStart)
+	while (++y < v->y_strt)
 		t.data[(y * WDTH) + ray] = SKY_COLOR;
-	y = v->drawStart;
-	while (y < v->drawEnd)
+	y = v->y_strt;
+	while (y < v->y_fnsh)
 	{
-		t.c = y * 256 - HGHT * 128 + v->lineHeight * 128;
-		t.y_text = ((t.c * t.texHeight) / v->lineHeight) / 256;
-		t.color_text = t.dat_bmp[t.texHeight * t.y_text + t.x_text];
+		t.c = y * 256 - HGHT * 128 + v->hght_wall * 128;
+		t.y_text = ((t.c * t.text_hght) / v->hght_wall) / 256;
+		t.color_text = t.dat_bmp[t.text_hght * t.y_text + t.x_text];
 		t.data[y * WDTH + ray] = t.color_text;
 		y++;
 	}
@@ -35,25 +35,25 @@ static void print_textured_line(t_text	t, int ray, t_raycast *v)
 
 static void choose_right_texture(t_text	*t, t_wolf *wolf, t_raycast *v)
 {
-	t->dat_bmp = wolf->bmp[0 + FLAGS.textur]->pixels;
+	t->dat_bmp = BMP[0 + FLAGS.textur]->pixels;
 
-	if ((v->rayDirX < 0 && v->rayDirY < 0)
-		|| (v->rayDirX >= 0 && v->rayDirY < 0))
+	if ((v->ray_x_drct < 0 && v->ray_y_drct < 0)
+		|| (v->ray_x_drct >= 0 && v->ray_y_drct < 0))
 	{
-		if (v->side == 1)
-			t->dat_bmp = wolf->bmp[1 + FLAGS.textur]->pixels;
+		if (v->wall_side == 1)
+			t->dat_bmp = BMP[1 + FLAGS.textur]->pixels;
 	}
-	if ((v->rayDirX < 0 && v->rayDirY >= 0)
-		|| (v->rayDirX >= 0 && v->rayDirY >= 0))
+	if ((v->ray_x_drct < 0 && v->ray_y_drct >= 0)
+		|| (v->ray_x_drct >= 0 && v->ray_y_drct >= 0))
 	{
-		if (v->side == 1)
-			t->dat_bmp = wolf->bmp[2 + FLAGS.textur]->pixels;
+		if (v->wall_side == 1)
+			t->dat_bmp = BMP[2 + FLAGS.textur]->pixels;
 	}
-	if ((v->rayDirX >= 0 && v->rayDirY < 0)
-		|| (v->rayDirX >= 0 && v->rayDirY >= 0))
+	if ((v->ray_x_drct >= 0 && v->ray_y_drct < 0)
+		|| (v->ray_x_drct >= 0 && v->ray_y_drct >= 0))
 	{
-		if (v->side == 0)
-			t->dat_bmp = wolf->bmp[3 + FLAGS.textur]->pixels;
+		if (v->wall_side == 0)
+			t->dat_bmp = BMP[3 + FLAGS.textur]->pixels;
 	}
 }
 
@@ -61,21 +61,21 @@ void w_print_wall(t_wolf *wolf, t_raycast *v, int ray)
 {
 	t_text	t;
 
-	t.texWidth = 64;
-	t.texHeight = 64;
-	if (!v->side)
-		t.wallX = LBRNT.posY + v->perpWallDist * v->rayDirY;
+	t.text_wdth = 64;
+	t.text_hght = 64;
+	if (!v->wall_side)
+		t.x_on_block = LBRNT.ply_pstn_y + v->distnc_wall * v->ray_y_drct;
 	else
-		t.wallX = LBRNT.posX + v->perpWallDist * v->rayDirX;
-	t.wallX -= (int)(t.wallX);
+		t.x_on_block = LBRNT.ply_pstn_x + v->distnc_wall * v->ray_x_drct;
+	t.x_on_block -= (int)(t.x_on_block);
 	t.data = SURF_WIN->pixels;
 
-	t.x_text = (int)(t.wallX * (double)t.texWidth);
+	t.x_text = (int)(t.x_on_block * (double)t.text_wdth);
 
-	if(v->side == 0 && v->rayDirX > 0)
-		t.x_text = t.texWidth - t.x_text - 1;
-	if(v->side == 1 && v->rayDirY < 0)
-		t.x_text = t.texWidth - t.x_text - 1;
+	if(v->wall_side == 0 && v->ray_x_drct > 0)
+		t.x_text = t.text_wdth - t.x_text - 1;
+	if(v->wall_side == 1 && v->ray_y_drct < 0)
+		t.x_text = t.text_wdth - t.x_text - 1;
 	choose_right_texture(&t, wolf, v);
 	print_textured_line(t, ray, v);
 }

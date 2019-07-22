@@ -51,20 +51,28 @@ static void frame_count(t_wolf *wolf)
 //SDL_SetTextInputRect()
 }
 
+static void finish(t_wolf *wolf)
+{
+
+	SDL_DestroyWindow(WIN);//
+	SDL_Quit();//
+	system ("leaks -q wolf3d");//
+}
+
 void w_event(t_wolf *wolf)
 {
-	int running = 1;
+	int game_on = 1;
 	int key;
 
-	while (running)
+	while (game_on)
 	{
 		frame_count(wolf);
-		while(SDL_PollEvent(&EVENT))
+		while(SDL_PollEvent(&EVENT))//
 		{
 			key = EVENT.key.keysym.sym;
 			if(EVENT.type == SDL_QUIT
 			   || (EVENT.type == SDL_KEYDOWN && key == SDLK_ESCAPE))
-				running = 0;
+				game_on = 0;
 			if (EVENT.type == SDL_KEYDOWN || EVENT.type == SDL_KEYUP)
 				set_flags(wolf, key);
 		}
@@ -75,8 +83,5 @@ void w_event(t_wolf *wolf)
 			w_turn_left_right(wolf);
 		w_raycasting(wolf);
 	}
-
-	SDL_DestroyWindow(WIN);
-	SDL_Quit();
-	system ("leaks -q wolf3d");//
+	finish(wolf);
 }

@@ -23,13 +23,14 @@
 # include <math.h>
 # include "libft/libft.h"
 # include "SDL2/SDL.h"
-# include "SDL2_image/SDL_image.h"
-# include "SDL2_mixer/SDL_mixer.h"
-# include "SDL2_ttf/SDL_ttf.h"
+# include "SDL2/SDL_image.h"
+# include "SDL2/SDL_mixer.h"
+# include "SDL2/SDL_ttf.h"
 
 # define WIN		wolf->sdl_data.win
-# define EVENT		wolf->sdl_data.event
+# define EVENT		wolf->sdl_data.evnts
 # define SURF_WIN	wolf->sdl_data.surf_win
+# define BMP		wolf->sdl_data.bmp
 # define READ		wolf->read
 # define FLAGS		wolf->flags
 # define LBRNT		wolf->lbrnt
@@ -63,12 +64,12 @@ typedef struct			s_labyrinth
 	char 				**map;
 	int 				rays;
 
-	double 				posX;
-	double 				posY;
-	double 				dirX;
-	double 				dirY;
-	double 				planeX;
-	double 				planeY;
+	double 				ply_pstn_x;
+	double 				ply_pstn_y;
+	double 				ply_drct_x;
+	double 				ply_drct_y;
+	double 				prjct_x;
+	double 				prjct_y;
 
 }						t_labyrinth;
 
@@ -76,7 +77,8 @@ typedef struct			s_sdl_ptr
 {
 	SDL_Window 			*win;
 	SDL_Surface 		*surf_win;
-	SDL_Event 			event;
+	SDL_Surface 		**bmp;
+	SDL_Event 			evnts;
 }						t_sdl_ptr;
 
 typedef struct			s_read
@@ -107,43 +109,42 @@ typedef struct			s_flags
 
 typedef struct			s_raycast
 {
-	int					stepX;
-	int					stepY;
-	int					side;
+	int					x_stage;
+	int					y_stage;
+	int					wall_side;
 	int					ray;
-	int					mapX;
-	int					mapY;
-	int					lineHeight;
-	int					drawStart;
-	int					drawEnd;
-	double				posX;
-	double				posY;
-	double				dirX;
-	double				dirY;
-	double				planeX;
-	double				planeY;
-	double				cameraX;
-	double				rayDirX;
-	double				rayDirY;
-	double				sideDistX;
-	double				sideDistY;
-	double				deltaDistX;
-	double				deltaDistY;
-	double				perpWallDist;
+	int					x_mp;
+	int					y_mp;
+	int					hght_wall;
+	int					y_strt;
+	int					y_fnsh;
+	double				ply_pstn_x;
+	double				ply_pstn_y;
+	double				ply_drct_x;
+	double				ply_drct_y;
+	double				prjct_x;
+	double				prjct_y;
+	double				scrn_x;
+	double				ray_x_drct;
+	double				ray_y_drct;
+	double				strt_dlt_x;
+	double				strt_dlt_y;
+	double				dlt_x;
+	double				dlt_y;
+	double				distnc_wall;
 }						t_raycast;
 
 typedef struct			s_text
 {
-	double				wallX;
 	int					*dat_bmp;
-	int					texWidth;
-	int					texHeight;
+	int					text_wdth;
+	int					text_hght;
 	int					*data;
-//	int					y;
 	int					c;
 	int					x_text;
 	int					y_text;
 	int 				color_text;
+	double				x_on_block;
 }						t_text;
 
 typedef struct			s_point
@@ -177,9 +178,8 @@ typedef struct			s_wolf
 	t_sdl_ptr			sdl_data;
 	t_read				*read;
 	t_flags				flags;
-	t_frame				frame;
 
-	SDL_Surface 		**bmp;
+	t_frame				frame;
 }						t_wolf;
 
 void	w_error(int err_nb);

@@ -31,7 +31,8 @@ target_link_libraries(${PROJECT_NAME} ${LFT_NAME}
         ${libsdl}
         ${libsdl_img}
         ${libsdl_mixer}
-#        ${libsdl_ttf}
+        ${libsdl_ttf}
+        -lm
         )
 
 #set(GCC_COVERAGE_COMPILE_FLAGS "-fsanitize=\"address\" -g -fno-omit-frame-pointer")

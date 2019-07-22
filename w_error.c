@@ -34,12 +34,12 @@ void	w_error(int err_nb)
 	}
 	else if (err_nb == ERR_ARGV)
 	{
-		ft_putendl("No file or empty map");
+		ft_putendl("Invalid argument or empty map");
 		exit(err_nb);
 	}
 	else if (err_nb == ERR_LENGTH)
 	{
-		ft_putendl("Length of your labyrinth not equal to size");
+		ft_putendl("Length of your labyrinth is invalid");
 		exit(err_nb);
 	}
 	else if (err_nb == ERR_HEIGHT)
@@ -54,7 +54,7 @@ void	w_error(int err_nb)
 	}
 	else if (err_nb == ERR_WALL)
 	{
-		ft_putendl("Detected free space in the labyrinth perimeter");
+		ft_putendl("Detected invalid symbol in the labyrinth perimeter");
 		exit(err_nb);
 	}
 	else if (err_nb == ERR_FREE)

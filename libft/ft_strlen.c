@@ -19,7 +19,7 @@ size_t	ft_strlen(const char *s)
 
 	s1 = (char*)s;
 	len = 0;
-	while (*s1)
+	while (s1 && *s1)
 	{
 		len++;
 		s1++;

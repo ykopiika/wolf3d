@@ -90,8 +90,8 @@ void		w_moov_in_map(t_wolf *wolf)
 	double a;
 
 	a = 3;
-	mv_y = FRAME.spd_mv * LBRNT.ply_drct_y * FLAGS.speed;
-	mv_x = FRAME.spd_mv * LBRNT.ply_drct_x * FLAGS.speed;
+	mv_y = 0.03 * LBRNT.ply_drct_y * FLAGS.speed;
+	mv_x = 0.03 * LBRNT.ply_drct_x * FLAGS.speed;
 	if (FLAGS.keydown_down == 1 || FLAGS.keydown_up == 1)
 		step_up_down(wolf, mv_x, mv_y, a);
 	if (FLAGS.keydown_a == 1 || FLAGS.keydown_d == 1)

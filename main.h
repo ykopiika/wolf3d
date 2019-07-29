@@ -127,9 +127,9 @@ typedef struct			s_raycast
 typedef struct			s_text
 {
 	int					*dat_bmp;
+	int					*data;
 	int					text_wdth;
 	int					text_hght;
-	int					*data;
 	int					c;
 	int					x_text;
 	int					y_text;

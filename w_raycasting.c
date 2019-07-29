@@ -70,7 +70,7 @@ static void	count_hight_wall(t_raycast *v)
 	else
 		v->distnc_wall =
 			(v->y_mp - v->ply_pstn_y + (1.0f - v->y_stage) / 2) / v->ray_y_drct;
-	v->hght_wall = (int)(HGHT / v->distnc_wall);
+	v->hght_wall = (int)(HGHT / v->distnc_wall) ;
 	v->y_strt = (-v->hght_wall >> 1u) + (HALF_HGHT);
 	if (v->y_strt < 0)
 		v->y_strt = 0;

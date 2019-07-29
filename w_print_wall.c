@@ -69,10 +69,10 @@ void		w_print_wall(t_wolf *wolf, t_raycast *v, int ray)
 	t.x_on_block -= (int)(t.x_on_block);
 	t.data = SURF_WIN->pixels;
 	t.x_text = (int)(t.x_on_block * (double)t.text_wdth);
-	if (v->wall_side == 0 && v->ray_x_drct > 0)
-		t.x_text = t.text_wdth - t.x_text - 1;
-	if (v->wall_side == 1 && v->ray_y_drct < 0)
-		t.x_text = t.text_wdth - t.x_text - 1;
+//	if (v->wall_side == 0 && v->ray_x_drct > 0)
+//		t.x_text = t.text_wdth - t.x_text - 1;
+//	if (v->wall_side == 1 && v->ray_y_drct < 0)
+//		t.x_text = t.text_wdth - t.x_text - 1;
 	choose_right_texture(&t, wolf, v);
 	print_textured_line(t, ray, v);
 }

@@ -97,7 +97,9 @@ static void		write_line(t_lfd *lst, char **line, int fd)
 	else
 		ft_strdel(&lst->str);
 }
-
+//ft_putstr_fd(str, 1);
+//char *s;
+//gnl(0, &s)
 int				get_next_line(const int fd, char **line)
 {
 	static t_lfd	*beg_lst;
